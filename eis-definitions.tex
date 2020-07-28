@@ -1,0 +1,151 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 
+%  Some useful definitions 
+% 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\newcommand{\refsec}[1]{Sec.~\ref{sec:#1}}
+\newcommand{\reffig}[1]{Fig.~\ref{fig:#1}}
+\newcommand{\reftab}[1]{Tab.~\ref{tab:#1}}
+\newcommand{\refalg}[1]{Alg.~\ref{alg:#1}}
+\newcommand{\refdef}[1]{Def.~\ref{def:#1}}
+
+\newcommand{\URLFORMAT}[1]{\mbox{\sffamily\small #1}}
+
+\newcommand{\CODESYMBOL}[1]{\textsf{\textit{\small #1}}}
+
+\newcommand{\CTLOPERATOR}[1]{\mbox{\textsf{\textup{#1}}}}
+\newcommand{\CTLAX}{\CTLOPERATOR{AX}}
+\newcommand{\CTLAF}{\CTLOPERATOR{AF}}
+\newcommand{\CTLAG}{\CTLOPERATOR{AG}}
+\newcommand{\CTLEX}{\CTLOPERATOR{EX}}
+\newcommand{\CTLEF}{\CTLOPERATOR{EF}}
+\newcommand{\CTLEG}{\CTLOPERATOR{EG}}
+\newcommand{\LTLX}{\CTLOPERATOR{X}}
+\newcommand{\LTLXT}[1]{\mbox{$\CTLOPERATOR{X}^{#1}$}}
+\newcommand{\LTLF}{\CTLOPERATOR{F}}
+\newcommand{\LTLG}{\CTLOPERATOR{G}}
+\newcommand{\LTLU}{\CTLOPERATOR{U}}
+\newcommand{\LTLR}{\CTLOPERATOR{R}}
+\newcommand{\LTLW}{\CTLOPERATOR{W}}
+
+\newcommand{\LTLS}{\CTLOPERATOR{S}}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% For revisions: 
+\definecolor{newtextcolor}{rgb}{0,0,0.5}
+\newenvironment{newtext}{\color{newtextcolor}}{}
+\definecolor{oldtextcolor}{rgb}{0.4,0.4,0.4}
+\newenvironment{oldtext}{\color{oldtextcolor}\par\textit{\sffamily Begin (old
+    text)}\par}{\hfill\textit{\sffamily End (old text)}\par}
+\newcommand{\textnew}[1]{{\color{newtextcolor}#1}}
+
+
+%For code: 
+\newcommand{\key}[1]{\textcolor{BlueViolet}{#1}}
+\newcommand{\ckey}[1]{\textcolor{blue}{#1}}
+\newcommand{\type}[1]{\textcolor{Green}{#1}}
+\newcommand{\port}[1]{\textcolor{RedViolet}{#1}}
+\newcommand{\macro}[1]{\textcolor{Sepia}{#1}}
+\newcommand{\tend}{\key{t\_end}\textcolor{RedViolet}{(}length\textcolor{RedViolet}{)}~\textcolor{RedViolet}{\#\#}0~}
+\newcommand{\tstart}{ \key{t} \textcolor{RedViolet}{\#\#}0~}
+
+%ITL Properties:
+\newcommand{\ITLKW}[1]{{\color{blue} #1}}
+\newcommand{\ITLAT}[1]{\ITLKW{at t+{}#1: }}
+\newcommand{\ITLOR}{\ITLKW{\textbar\,\textbar}}
+\newcommand{\ITLENDL}{\ITLKW{;}}
+\newcommand{\ITLPREV}{\ITLKW{prev}}
+\definecolor{DARKGREEN}{RGB}{0,100,0}
+\newcommand{\ITLCOMMENT}[1]{{\color{DARKGREEN}- - #1}}
+
+
+%Text
+
+\newcommand{\tsCODE}[1]{\textsf{\textit{\small #1}}}
+
+%Environments
+\newtheorem{definition}{Definition}
+\newtheorem{theorem}{Theorem}
+
+%Abbreviations:
+\newcommand{\SYSTEMCPPA}{SystemC-PPA}
+\newcommand{\NOP}{non-overlap pipelining}
+\newcommand{\OP}{overlap pipelining}
+\newcommand{\BP}{base property}
+\newcommand{\RP}{relaxed property}
+\newcommand{\PPDD}{PPDD}
+\newcommand{\PDDTOOL}{DeSCAM} 
+\newcommand{\SYMBOLNAME}[1]{\mbox{\textsf{\textsl{\small #1}}\,}}
+\newcommand{\BOOLTRUE}{\SYMBOLNAME{true}} 
+\newcommand{\BOOLFALSE}{\SYMBOLNAME{false}}
+
+% symbols of PPA
+\newcommand{\CONCAT}{\mbox{$\odot$}}
+\newcommand{\IMPORTANT}{\mbox{$\Psi$}}
+  % message predicate
+\newcommand{\MSGPRED}{\mbox{$\mu$}}
+  % operational input predicate
+\newcommand{\INPPRED}{\mbox{$\iota$}}
+  % trigger 
+\newcommand{\TRIGPRED}{\mbox{$\iota$}}
+
+  %operational path
+\newcommand{\oppath}{\ensuremath\mbox{$\mathtt{opath}$}}
+%\newcommand\oppath{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily oper}}}{\pi}}}
+
+  %operational output
+%\newcommand{\opout}{\ensuremath\mbox{$\mathtt{oout}$}}
+
+  %color similar symbol
+\newcommand\colsim{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\tiny\sffamily color}}}{=}}}
+
+%state, input, output color
+\newcommand{\nodecolor}{\ensuremath\mbox{$\mathtt{f_{C}}$}}
+\newcommand{\statecolor}{\ensuremath\mbox{$\mathtt{f_{SC}}$}}
+\newcommand{\incolor}{\ensuremath\mbox{$\mathtt{f_{XC}}$}}
+\newcommand{\outcolor}{\ensuremath\mbox{$\mathtt{f_{YC}}$}}
+
+\newcommand{\notimplies}{%
+  \mathrel{{\ooalign{\hidewidth$\not\phantom{=}$\hidewidth\cr$\implies$}}}}
+
+
+% PredCol
+\newcommand{\statepredcolor}{\ensuremath\mbox{$\mathtt{B_{\eta{}C}}$}}
+\newcommand{\inputpredcolor}{\ensuremath\mbox{$\mathtt{B_{\iota{}C}}$}}
+\newcommand{\outputpredcolor}{\ensuremath\mbox{$\mathtt{B_{\mu{}C}}$}}
+% ColPred
+\newcommand{\statecolorpred}{\ensuremath\mbox{$\mathtt{B_{C\eta}}$}}
+\newcommand{\inputcolorpred}{\ensuremath\mbox{$\mathtt{B_{C\iota}}$}}
+\newcommand{\outputcolorpred}{\ensuremath\mbox{$\mathtt{B_{C\mu}}$}}
+
+
+% text style for operators: 
+\newcommand{\tsOPERATOR}[1]{\mbox{\textrm{\textup{#1}}}}
+
+% IMG and other operators
+\newcommand{\IMG}{\tsOPERATOR{img}} %image
+\newcommand{\PRE}{\tsOPERATOR{pre}} %pre-image
+
+\newcommand\LFP{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\scriptsize\sffamily fp}}}{\mbox{\normalfont\footnotesize\sffamily <}}}}
+\newcommand\GFP{\mathrel{\overset{\makebox[0pt]{\mbox{\normalfont\scriptsize\sffamily fp}}}{\mbox{\normalfont\footnotesize\sffamily >}}}}
+
+\newcommand{\ISPATH}{\tsOPERATOR{ispath}}
+\newcommand{\ISOPERATION}{\tsOPERATOR{isoperation}}
+\newcommand{\ISOUTPUT}{\tsOPERATOR{isoutput}}
+\newcommand{\INPUT}{\tsOPERATOR{input}}
+\newcommand{\OUTPUT}{\tsOPERATOR{output}}
+% \newcommand{\ANY}{\tsOPERATOR{any}}
+\newcommand{\STUTTER}{\tsOPERATOR{stutter}}
+
+% NEXT operator takes a subscript in math mode: 
+\newcommand{\NEXT}[1]{\mbox{\tsOPERATOR{next}}_{#1}}
+
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: "binder"
+%%% End: 
