@@ -1,0 +1,9 @@
+property accept_request is
+assume:
+    at t: state == S1;
+    at t: request_i == 1;
+
+prove:
+    at t+3: state == S2;
+    at t+3: ack_o == 0;
+end property;

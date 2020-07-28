@@ -1,0 +1,543 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% To make formatting easy tell LaTeX what kind of document you want to write
+% by changing the according {} to {#1}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Most of the choices and things that need to be adjusted are maked 
+% with a commented "TODO". Adjust the given value the one correct your your case.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Dissertation
+\newcommand{\Diss}[1]{}
+% Diplomarbeit
+\newcommand{\Dipl}[1]{}
+% Master Thesis
+\newcommand{\MS}[1]{#1}
+% Studienarbeit
+\newcommand{\Stud}[1]{}
+
+\newcommand{\BachelorT}[1]{} %%TODO: mark the corret one with a #1
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Which language do you want to write in
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%English
+\newcommand{\EN}[1]{#1} %%TODO: Choose the correct language
+%German
+\newcommand{\DE}[1]{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% For print single or double page?
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\newcommand{\single}[1]{#1} %%TODO: Choose
+\newcommand{\double}[1]{}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Now this is followed by a lot of page and command definitions. For the beginning you 
+% should be able to continue where you find the next comment section like this one.
+% However, you might want to take a look a the definitions sometime to be able to use 
+% them. Of course you can also add the defintions you needed yourself.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\single{\documentclass[12pt,a4paper,oneside,german,english,fleqn]{book}}
+\double{\documentclass[12pt,a4paper,twoside,german,english,fleqn]{book}}
+
+\usepackage[ngerman,main=english]{babel}
+%\usepackage[draft,breaklinks=true,colorlinks=false,dvips,bookmarks,pdffitwindow,pdfcenterwindow=true,pdfstartview=Fit]{hyperref}
+%\usepackage[breaklinks=true,colorlinks=false,dvips,bookmarks,pdffitwindow,pdfcenterwindow=true,pdfstartview=Fit]{hyperref}
+\usepackage{setspace}
+\usepackage{cite}
+\usepackage{float,times} 
+\usepackage[utf8x]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{amsmath,amsthm,latexsym,amssymb}
+\usepackage[dvips]{epsfig}
+% \usepackage{subfigure}
+\usepackage{rotating}
+
+\usepackage{graphicx}
+\usepackage{subcaption}
+
+%\usepackage[outputdir=obj/]{minted} %% Use for advanced build mechanic, needs newest minted style file
+%\usepackage{minted} %% use for fancy syntax highlighting of code. Needs "pygmetize" and the minted style file
+\usepackage{xspace}
+
+\usepackage{xcolor}
+\usepackage{afterpage}
+\usepackage{multirow}
+\usepackage{array}
+
+\usepackage{pdfpages}
+
+\usepackage{booktabs}% http://ctan.org/pkg/booktabs
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+
+\usepackage{capt-of}
+\usepackage{caption}
+\usepackage{listings}
+% \renewcommand{\lstlistingname}{Quelltext}
+\renewcommand*{\lstlistlistingname}{List of \lstlistingname s}
+%\usepackage[german]{fancyref}
+\usepackage[english]{fancyref}
+\newcommand*{\fancyreflstlabelprefix}{lst}
+\newcommand*{\fancyrefitelabelprefix}{ite}
+\newcommand*{\fancyrefparlabelprefix}{par}
+
+\fancyrefaddcaptions{german}{
+  \providecommand*{\freflstname}{Listing}
+  \providecommand*{\Freflstname}{Listing}
+}
+
+\frefformat{plain}{\fancyreflstlabelprefix}{\freflstname\fancyrefdefaultspacing#1}
+\Frefformat{plain}{\fancyreflstlabelprefix}{\Freflstname\fancyrefdefaultspacing#1}
+
+\frefformat{plain}{\fancyreflstlabelprefix}{
+  \freflstname\fancyrefdefaultspacing#1#3
+}
+\Frefformat{plain}{\fancyreflstlabelprefix}{
+  \Freflstname\fancyrefdefaultspacing#1#3
+}
+
+\fancyrefaddcaptions{german}{
+  \providecommand*{\frefitename}{Liste}
+  \providecommand*{\Frefitename}{Liste}
+}
+
+\frefformat{plain}{\fancyrefitelabelprefix}{\frefitename\fancyrefdefaultspacing#1}
+\Frefformat{plain}{\fancyrefitelabelprefix}{\Frefitename\fancyrefdefaultspacing#1}
+
+\frefformat{plain}{\fancyrefitelabelprefix}{
+  \frefitename\fancyrefdefaultspacing#1#3
+}
+\Frefformat{plain}{\fancyrefitelabelprefix}{
+  \Frefitename\fancyrefdefaultspacing#1#3
+}
+
+\fancyrefaddcaptions{german}{
+  \providecommand*{\frefparname}{Paragraph}
+  \providecommand*{\Frefparname}{Paragraph}
+}
+
+\frefformat{plain}{\fancyrefparlabelprefix}{\frefparname\fancyrefdefaultspacing#1}
+\Frefformat{plain}{\fancyrefparlabelprefix}{\Frefparname\fancyrefdefaultspacing#1}
+
+\frefformat{plain}{\fancyrefparlabelprefix}{
+  \frefparname\fancyrefdefaultspacing#1#3
+}
+\Frefformat{plain}{\fancyrefparlabelprefix}{
+  \Frefparname\fancyrefdefaultspacing#1#3
+}
+
+\renewcommand{\fancyrefdefaultformat}{plain}
+
+\newcommand{\ThesisTitle}{Property Generation for Pipelined Processors in a Property-Driven Design Approach} %%TODO
+\newcommand{\ThesisTitleGerman}{Hier Deutschen Titel Einf\"ugen} %%TODO %NOTE: for some reason, LaTeX does not understand utf8 here...
+
+% format page layout.
+
+%\setlength{\topmargin}{0cm}
+%\setlength{\textwidth}{15cm}
+%\setlength{\textheight}{22cm}
+%\setlength{\oddsidemargin}{1cm}
+%\setlength{\evensidemargin}{0cm}
+\setlength{\headheight}{15pt}
+
+\setlength{\emergencystretch}{1em}
+
+\setlength{\voffset}{-0cm}
+\setlength{\topmargin}{0cm}
+\setlength{\headheight}{0.54cm}
+\setlength{\textheight}{23cm}
+% \setlength{\headsep}{1.5cm}
+% \setlength{\hoffset}{-2.54cm}
+\setlength{\hoffset}{0cm}
+\setlength{\oddsidemargin}{0.46cm}
+\setlength{\evensidemargin}{0.46cm}
+\setlength{\textwidth}{15cm}
+\setlength{\marginparsep}{0cm}
+\setlength{\marginparwidth}{1.54cm}
+
+% adjust linespacing
+\linespread{1.3}
+
+\usepackage{parskip}
+% \setlength{\footskip}{1cm}
+% \setlength{\parindent}{0cm}
+ \setlength{\parskip}{1em}
+
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{1}
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % clear all header fields
+\double{\fancyhead[LE]{\slshape \nouppercase{\leftmark}}} % chapter titles
+\fancyhead[RO]{\slshape \nouppercase{\rightmark}} % section titles
+\fancyfoot{} % clear all footer fields
+\fancyfoot[C]{\thepage}
+
+
+\usepackage[%dvips,
+	colorlinks=false,
+	bookmarks,
+	pdffitwindow,
+	pdfcenterwindow=true,
+	pdfstartview=Fitpdftex,
+	pdfauthor={Insert Author Name here}, %%TODO
+% 	pdftitle={\EN{\ThesisTitle}\DE{\ThesisTitleGerman}},
+	pdftitle={\EN{\ThesisTitle}},
+	pdfsubject={}, % one sentence summery %%TODO
+	pdfkeywords={Thesis,Hardware,Simulation,System-Modelling}, %TODO: comma-seperated keywords
+	pdfproducer={Latex with hyperref},
+	pdfcreator={}]{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Overly fancy comments
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% uncomment the ifthen block if the enhanched build mechanic is used
+% \providecommand\printcomments{false}
+% \usepackage{ifthen}
+% \ifthenelse{ \equal{\printcomments}{true} }{
+\newcommand{\comment}[3]{\marginpar{\textcolor{#2}{Comment: #1}}\textcolor{#2}{\textit{[#1: #3]}}}
+\newcommand{\SupervisorComment}[1]{\comment{Supervisor}{red}{#1}} %%TODO: exchange "SupervisorComment" and "Supervisor" with initials
+\newcommand{\StudentComment}[1]{\comment{Student}{blue}{#1}} %%TODO: exchange "StudentComment" and "Student" with initials
+% }{
+% \newcommand{\TF}[1]{}
+% \newcommand{\LA}[1]{}
+% }
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\usepackage{showframe}
+
+\usepackage[shortlabels]{enumitem}
+
+\begin{document}
+
+%\lhead[\fancyplain{}{\thepage}]         {\fancyplain{}{\rightmark}}
+%\chead[\fancyplain{}{}]                 {\fancyplain{}{}}
+%\rhead[\fancy{}{\rightmark}]       {\fancy{}{\thepage}}
+%\rhead[\fancyplain{}{\rightmark}]       {\fancyplain{}{\thepage}}
+%\lfoot[\fancyplain{}{}]                 {\fancyplain{\tstamp}{\tstamp}}
+%\cfoot[\fancy{\thepage}{}]         {\fancy{\thepage}{}}
+%\cfoot[\fancyplain{\thepage}{}]         {\fancyplain{\thepage}{}}
+%\rfoot[\fancyplain{\tstamp} {\tstamp}]  {\fancyplain{}{}}
+% \fancyhf{} %delete the current section for header and footer
+% \fancyhead[LE,RO]{\bfseries\thepage}
+% \fancyhead[LO]{\bfseries\rightmark}
+% \fancyhead[RE]{\bfseries\leftmark}
+% \renewcommand{\headrulewidth}{0.5pt}
+% % make space for the rule
+% \fancypagestyle{plain}{%
+% \fancyhead{} %get rid of the headers on plain pages
+% %\renewcommand{\headrulewidth}{0} % and the line
+% } 
+
+\EN{\selectlanguage{english}}
+\DE{\selectlanguage{german}}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Here you have to start editing
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\EN{\title{\ThesisTitle}}%
+% \DE{\title{\ThesisTitleGerman}}
+  \author{ \Diss{\\
+    Dept. of Electrical \& Computer Eng., University of
+    Kaiserslautern/Germany\\
+    email: email@eit.uni-kl.de}
+  }
+\pagenumbering{arabic} 
+\hyphenation{Bit-ebenen Gateprop Bit-ebene Fanin Boole-sche
+  Partial-produkt-generator
+  Code-inspektion
+  Verifika-tions-ablauf
+  IPC-Verifika-tions-ablauf
+  Abhangig-keiten
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% title page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\frontmatter
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% titel page
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\thispagestyle{empty}
+
+\begin{center}
+  \mbox{}
+  %\vspace{3cm} 
+\vspace{1cm} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Insert your title here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%   \Large{\ThesisTitleGerman}
+%   %\vspace{1cm}
+%   \EN{\\\large {\ThesisTitle}}
+  
+  \Large{\ThesisTitle}
+
+\normalsize  
+ 
+ \vspace{1.5cm} 
+  \Diss{Dissertation \\
+  zur Erlangung des akademischen Grades\\ 
+  Doktor-Ingenieur (Dr.-Ing.)\\}
+
+\Dipl{Diplomarbeit\\}
+\MS{Master Thesis\\}
+\Stud{Studienarbeit\\}
+\BachelorT{Bachelorarbeit\\}
+  \vspace{2cm} 
+
+  \Diss{vorgelegt beim\\}
+  \Dipl{angefertigt am\\Lehrstuhl für
+Entwurf informationstechnischer Systeme,\\}
+  \MS{angefertigt am\\Lehrstuhl für
+Entwurf informationstechnischer Systeme,\\}
+  \Stud{angefertigt am\\Lehrstuhl für
+Entwurf informationstechnischer Systeme,\\}
+  \BachelorT{angefertigt am\\Lehrstuhl für
+Entwurf informationstechnischer Systeme,\\}
+  Fachbereich Elektrotechnik und Informationstechnik\\
+  der Technischen Universit\"at Kaiserslautern\\
+
+  \vspace{1.5cm} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Put your name with current academic title and your place of birth here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  Sílvio Heverton Campelo de Santana\\ %%TODO
+  ~\\
+
+  \vspace{1.5cm} 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Put the current year here
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  Kaiserslautern, 2020 \\
+\end{center}
+%\DE{\vspace{2cm}}
+\EN{\vspace{1cm}} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DIPLOMARBEIT: ersetze Betreuer1 und Betreuer2 durch Deine Betreuer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Dipl{\begin{tabular}[t]{l@{\hspace{1cm}}l}
+  Betreuer: 
+  & Betreuer1, \\
+  & Betreuer2 \\
+\end{tabular}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MASTERARBEIT: ersetze Betreuer1 und Betreuer2 durch Deine Betreuer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\MS{\begin{tabular}[t]{l@{\hspace{1cm}}l}
+  Betreuer: 
+  & Betreuer1, \\
+  & Betreuer2 \\ 
+\end{tabular}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% STUDIENARBEIT: ersetze Betreuer1 und Betreuer2 durch Deine Betreuer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\Stud{\begin{tabular}[t]{l@{\hspace{1cm}}l}
+  Betreuer: 
+  & Betreuer1, \\
+  & Betreuer2 \\ 
+\end{tabular}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BACHELORARBEIT: ersetze Betreuer1 und Betreuer2 durch Deine Betreuer
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\BachelorT{\begin{tabular}[t]{l@{\hspace{1cm}}l}
+  Betreuer: 
+  & Betreuer1, \\
+  & Betreuer2 \\ 
+\end{tabular}}
+
+\Diss{\newpage
+\thispagestyle{empty}
+\mbox{}
+
+\vspace{8cm}
+
+{\raggedright dem Fachbereich Elektrotechnik und Informationstechnik\\
+ der Technischen Universit\"at Kaiserslautern\\
+als Dissertation vorgelegt. 
+
+}
+
+\vfill
+
+\noindent
+\begin{tabular}[t]{l@{\hspace{1cm}}l}
+  Dekan: & Univ.-Prof. Dr. Steven Liu \\
+  \rule{0cm}{1cm} & \\
+  Gutachter: 
+  & Prof. Dr.-Ing. Dr. rer. nat. habil. Wolfgang Kunz, \\ 
+  & Technische Universit\"at Kaiserslautern\\
+  & Prof. Dr.-Ing. Hans Eveking, \\
+  & Technische Unversit\"at Darmstadt\\
+  
+  \rule{0cm}{1cm} & \\
+  Datum der Disputation: & \\
+\end{tabular}}
+
+\Dipl{\newpage
+\thispagestyle{empty}
+\mbox{}
+{\raggedright \newline\textbf{Eidesstattliche Erkl\"arung}
+
+Hiermit versichere ich, die nachfolgende Arbeit selbstständig und nur unter Verwendung der angegebenen Hilfsmittel angefertigt zu haben.
+
+\EN{\vspace{1cm}\textbf{Certification}
+
+I hereby declare that this submission is my own work and that I only used the resources specified. 
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% DIPLOMARBEIT: setze Abgabedatum ein 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{2cm}
+Homburg (Saar), 02.05.2015}
+
+}
+
+\MS{\newpage
+\thispagestyle{empty}
+\mbox{}
+{\raggedright \newline\textbf{Eidesstattliche Erkl\"arung}
+
+Hiermit versichere ich, die nachfolgende Arbeit selbstständig und nur unter Verwendung der angegebenen Hilfsmittel angefertigt zu haben.
+
+\EN{\vspace{1cm}\textbf{Certification}
+
+I hereby declare that this submission is my own work and that I only used the resources specified. 
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MASTERARBEIT: setze Abgabedatum ein
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{2cm}
+Kaiserslautern, den Datum der Abgabe}
+
+}
+
+\Stud{\newpage
+\thispagestyle{empty}
+\mbox{}
+{\raggedright \newline\textbf{Eidesstattliche Erkl\"arung}
+
+Hiermit versichere ich, die nachfolgende Arbeit selbstständig und nur unter Verwendung der angegebenen Hilfsmittel angefertigt zu haben.
+
+\EN{\vspace{1cm}\textbf{Certification}
+
+I hereby declare that this submission is my own work and that I only used the resources specified. 
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% STUDIENARBEIT: setze Abgabedatum ein
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{2cm}
+Kaiserslautern, den Datum der Abgabe}
+
+}
+
+\BachelorT{\newpage
+\thispagestyle{empty}
+\mbox{}
+{\raggedright \newline\textbf{Eidesstattliche Erkl\"arung}
+
+Hiermit versichere ich, die nachfolgende Arbeit selbstständig und nur unter Verwendung der angegebenen Hilfsmittel angefertigt zu haben.
+
+\EN{\vspace{1cm}\textbf{Certification}
+
+I hereby declare that this submission is my own work and that I only used the resources specified. 
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% MASTERARBEIT: setze Abgabedatum ein
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\vspace{2cm}
+Kaiserslautern, den [Datum der Abgabe]} %TODO
+
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% So far for the official formatting now your own content follows.
+% Put your chapters in individual files and include them by \input
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\input{src/acknowledgments}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Dedication page
+%If you wnat to dedicate your thesis to someone change the according line
+%otherwise comment out
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\newpage
+\thispagestyle{empty}
+%\begin{center}
+%\mbox{}
+%
+%\vspace{8cm}
+%{\large To whoever you want to dedicate}
+%\end{center}
+\tableofcontents
+
+\mainmatter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Now this is followed by your chapters
+% this usually starts with introduction and Fundamentals and then 
+% continues with whatever you need or did
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%TODO: 'input' chapters here
+\newpage
+\input{chapters/1_introduction.tex}
+\newpage
+\input{chapters/2_background}
+\newpage
+\input{chapters/3_algorithm}
+\newpage
+\input{chapters/4_ri5cy}
+\newpage
+\input{chapters/5_results}
+\newpage
+\input{chapters/6_conclusion}
+\newpage
+% \input{chapters/6_ausblick.tex}
+% \newpage
+
+\backmatter
+\listoffigures 
+\listoftables
+% \listoflistings
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Choose your Bibtex Style File (here alphadin.bst) and references.
+% Hint: For references make a local link refs2 to our jabref 
+% directory "/import/jabref/refs2.bib"
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \bibliographystyle{alphadin}
+\bibliographystyle{plain}
+% \bibliography{refs3}
+\bibliography{myrefs} %I added this
+% \bibliography{myrefs}
+% \input{mybiblio}%\todo{use bibtex!}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Curriculum Vitae
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\selectlanguage{german}
+%\input{cv.tex}
+%\selectlanguage{english}
+
+\end{document}
