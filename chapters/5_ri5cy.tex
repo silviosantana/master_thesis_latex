@@ -5,7 +5,7 @@
 
 The algorithm to generate Pipeline Properties, proposed in Chap.~\ref{chapter:algorithm},  was evaluated with a case study for the RI5CY processor core. RI5CY is a 4-stage pipeline processor core based on the RISC-V architecture. Its implementation is open-source and powered by PULP Platform \cite{pulp}.
 
-For this case study, a \textit{SystemC-PPA-compliant} \cite{paper-pdd} model for the chosen core was implemented as a sequential CPU. The properties were then automatically generated using DeSCAM \cite{descam}. From these automatically generated properties, the Pipeline Properties were finally created using the merging Pipeline Algorithm. 
+For this case study, a \textit{SystemC-PPA-compliant} \cite{paper-pdd} model for the chosen core was implemented as a sequential CPU model. The properties were then automatically generated using DeSCAM \cite{descam}. From these automatically generated properties, the Pipeline Properties were finally created using the merging Pipeline Algorithm. 
 
 This chapter starts with a brief discussion about the RISC-V Implementation Set Architecture in Sec.~\ref{section:riscv} and the RI5CY processor core in Sec.~\ref{section:ri5cy_core}. Next, the ESL implementation compliant to the \textit{SystemC-PPA} specification is detailed in Sec.~\ref{section:ri5cy_esl}. Then, the DeSCAM generated properties are presented in Sec.~\ref{section:ri5cy_micro_ppt}, followed by the Pipeline Properties in Sec.~\ref{section:ri5cy_pipe_ppt}, and finally the S2QED Properties Sec.~\ref{section:ri5cy_s2qed_ppt}.
 
