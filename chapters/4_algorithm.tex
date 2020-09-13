@@ -224,7 +224,9 @@ When this ESL model is parsed by \textit{DeSCAM}, a set of properties that compr
         \label{fig:add-ex-wb-micro-ppt}
 \end{figure}
 
-The Pipeline Algorithm will convert the micro properties set into a pipeline properties set that comprises the \textit{reset} property, and merge the regular micro properties and \textit{wait} properties into pipeline properties. The algorithm consists of three major steps:
+The Pipeline Algorithm will convert the micro properties set into a pipeline properties set that comprises the \textit{reset} property, and merge the regular micro properties and \textit{wait} properties into pipeline properties. The refinement of the \textit{reset} property follows the regular property refinement of the PDD flow in \cite{paper-pdd}. Constraints can be added if needed, and the $t\_end$ must be updated to the appropriate time point.
+
+The algorithm to merge the regular micro properties and \textit{wait} properties into a set of pipeline properties consists of three major steps:
 
 \begin{enumerate}
 \item \textit{Find the root state}: the \textit{root} state is the first important state to be reached by the system after \textit{reset}. This node within the PPA is used in step two as the start point for finding cycles;
