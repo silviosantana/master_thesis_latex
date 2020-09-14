@@ -1,4 +1,120 @@
 % ----------------------------------------------------------
 % Results
 % ----------------------------------------------------------
-\chapter{Results}
+\chapter{Experimental Results}
+
+In Chapter \ref{chapter:ri5cy}, the ESL model for the RI5CY processor core and the generation and refinement of a complete set of properties, including the pipeline and \SSQED{} properties, are presented. The current chapter discusses the experimental results for the ESL model including a comparison with the RTL implementation. In addition, the experiments analyse the property generation and property checking process. Finally, a comparison with the bottom-up verification flow is discussed.
+
+Table~\ref{tab:esl-rtl-comp} provides a comparison between the ESL model and the RTL implementation. As expected, given the higher abstraction level of the ESL, the number of \textit{Lines of Code}~(LoC) is much lower for the ESL than the RTL. The LoC for the ESL includes the RI5CY CORE and the Register File modules, since the register file is part of the core on the RTL. It is important to notice that the RTL modules for extensions that are not comprised by the ESL were not taken into consideration for the LoC. However, there is still code referring to these extensions, and also to decoding and executing all the instructions not implemented by the ESL, present at the considered RTL modules.
+
+\begin{table*}[htb!] 
+	\centering 
+	\caption{LSU port signals of RI5CY processor\cite{manual-ri5cy}.} 
+	\label{tab:esl-rtl-comp}
+	\begin{tabular}{l|c|p{7cm}} 
+		\multicolumn{1}{c}{\bfseries Signal} & \multicolumn{1}{c}{\bfseries Port Direction} & \multicolumn{1}{c}{\bfseries Description} \\     
+		\hline	
+		$data\_req\_o$  &  output & Request ready, must stay high until $data\_gnt\_i$ is        high for one cycle \\
+		\hline
+		$data\_addr\_o$[31:0]  &  output & Address \\
+		\hline
+		$data\_we\_o$  &  output & Write Enable, high for writes, low for reads. Sent            together with $data\_req\_o$ \\
+	\end{tabular} 
+\end{table*}
+
+The simulation results presented in Table~\ref{tab:esl-rtl-comp} refer to the simulation of three computation-heavy programs for the ESL and RTL models. The first program computes ten prime numbers greater than 1000. The second one computes 1000 numbers of the Fibonacci sequence. The third program implements the execution of the \textit{Bubble Sort} algorithm to sort an array of 50 integers in ascending order. To consider the worse-case execution time for \textit{Bubble Sort}, the array is initially sorted in descending order.
+
+The simulations were conducted on an Intel Core~i7 8550U @~1.80\,GHz with 8\,GB of RAM. All the simulations were much faster for the ESL model, as expected. This also reflects the higher abstract implementation of the system-level compared to the RTL implementation.
+
+The same environment was used to run the \textit{DeSCAM} tool for the implemented ESL model to generate the set of micro properties. The results are presented in Table~\ref{tab:micro-ppt-results}. \textit{DeSCAM} takes approximately 28\,s to parse the ESL model and generate the micro properties set with a total of 21 properties. Considering only the LoC for the generated properties, the value is 661\,lines. Including the LoC for the generated function macros and macros to be refined, the new count is 925\,lines.
+
+\begin{table*}[htb!] 
+	\centering 
+	\caption{LSU port signals of RI5CY processor\cite{manual-ri5cy}.} 
+	\label{tab:micro-ppt-results}
+	\begin{tabular}{l|c|p{7cm}} 
+		\multicolumn{1}{c}{\bfseries Signal} & \multicolumn{1}{c}{\bfseries Port Direction} & \multicolumn{1}{c}{\bfseries Description} \\     
+		\hline	
+		$data\_req\_o$  &  output & Request ready, must stay high until $data\_gnt\_i$ is        high for one cycle \\
+		\hline
+		$data\_addr\_o$[31:0]  &  output & Address \\
+		\hline
+		$data\_we\_o$  &  output & Write Enable, high for writes, low for reads. Sent            together with $data\_req\_o$ \\
+	\end{tabular} 
+\end{table*}
+
+The next step is the creation of the set of pipeline and \SSQED{} properties. Table~\ref{tab:pipe-s2qed-ppt-resutls} shows the estimated effort for merging the micro properties and refining macros to create the pipeline properties, as well the estimated effort to create the \SSQED{} property set. Even though the \SSQED{} properties are not created from any automatically generated properties, they are not build from scratch. The number of properties needed is guided by the merged pipeline properties, i.e. for each merged property corresponding to a type of instruction, a \SSQED{} should be written. In addition, the refined state macros, e.g. \textit{ready to fetch} and \textit{empty pipeline}, can be reused, as well the generated function macros. Table~\ref{tab:pipe-s2qed-ppt-resutls} also shows the resulting number of merged and \SSQED{} properties, and the LoC counting for them. The difference on the number of properties between the property sets is because the \SSQED{} does not include \textit{reset}, \textit{vacuous}, \textit{flush} and \textit{unknown} properties. In addition, there is only one \SSQED{} property for both \textit{jump} instructions. 
+
+\begin{table*}[htb!] 
+	\centering 
+	\caption{LSU port signals of RI5CY processor\cite{manual-ri5cy}.} 
+	\label{tab:pipe-s2qed-ppt-resutls}
+	\begin{tabular}{l|c|p{7cm}} 
+		\multicolumn{1}{c}{\bfseries Signal} & \multicolumn{1}{c}{\bfseries Port Direction} & \multicolumn{1}{c}{\bfseries Description} \\     
+		\hline	
+		$data\_req\_o$  &  output & Request ready, must stay high until $data\_gnt\_i$ is        high for one cycle \\
+		\hline
+		$data\_addr\_o$[31:0]  &  output & Address \\
+		\hline
+		$data\_we\_o$  &  output & Write Enable, high for writes, low for reads. Sent            together with $data\_req\_o$ \\
+	\end{tabular} 
+\end{table*}
+
+Finally, the resulting property set was check for the RTL design. The property checking was conducted with the commercial property checker OneSpin~360~DV-Certify \texttrademark{} running on an Intel Xeon~E5-2637~v4  @~3.50\,GHz with 96\,GB of RAM. Table~\ref{tab:pipe-s2qed-check-resutls} shows the running checking time and used memory results both pipeline and \SSQED{} property sets.
+
+\begin{table*}[htb!] 
+	\centering 
+	\caption{LSU port signals of RI5CY processor\cite{manual-ri5cy}.} 
+	\label{tab:pipe-s2qed-check-resutls}
+	\begin{tabular}{l|c|p{7cm}} 
+		\multicolumn{1}{c}{\bfseries Signal} & \multicolumn{1}{c}{\bfseries Port Direction} & \multicolumn{1}{c}{\bfseries Description} \\     
+		\hline	
+		$data\_req\_o$  &  output & Request ready, must stay high until $data\_gnt\_i$ is        high for one cycle \\
+		\hline
+		$data\_addr\_o$[31:0]  &  output & Address \\
+		\hline
+		$data\_we\_o$  &  output & Write Enable, high for writes, low for reads. Sent            together with $data\_req\_o$ \\
+	\end{tabular} 
+\end{table*}
+
+The longer checking time for the pipeline properties occurred for the \textit{ENC\_I\_L} instruction type. This is justified by the inserted bounded wait of five cycles for the data memory. The \textit{ENC\_I\_L} is followed by \textit{ENC\_R} and \textit{ENC\_I\_I} types. This is because these types comprise the greater number of associated instructions, for instance all the arithmetic, logic, and logic shift instructions. \SSSAY{ENC\_UI results pending. It may take longer}
+
+The results for the \SSQED{} property set were obtained with some constraints regarding the number of registers considered for the checker. All the register fields of the IUV were restricted to be lower than five, i.e. the instruction will access the four first register of the register file. In addition, the bounded wait for \textit{load} and \textit{store} instructions were limited to three instead of five. These restrictions were applied to reduce the complexity for the property checker, to avoid running out of memory or taking too long to finish.
+
+Even though the checking time required for making a property hold can be of several minutes, or even hours, the property checking tool needs much less to find a bug. When a bug was inserted on the forwarding mechanism of the processor core, the tool needed only \SSSAY{how many?} minutes to find a counter-example for a \textit{load} instruction and  \SSSAY{how many?} minutes for an \textit{add} instruction.
+
+For means of comparison, the experiments included the creation of pipeline properties in a \textit{bottom-up} approach. This property set was created strictly from the behaviour extracted from the RTL design, and it is not part of the PDD flow. In this case, the properties were created from the ground up based on the implemented RTL and its signals. No automatically generated macros or functions were used. One property for each instruction was created. However, macros were employed to unify the properties of each type of instruction, and each instruction property just instantiated the corresponding macro, e.g. all arithmetic and logic instructions of R-type and I-type use the same property macro. This use of macros resulted in eight property macros.
+
+Table~\ref{tab:bottom-up-ppt-resutls} shows the experimental results of the bottom-up constructed pipeline properties in comparison to the pipelined properties merged from the micro properties in the PDD flow. The results indicate a much larger effort to create the properties from bottom-up than with the PDD flow using an ESL model. \SSSAY{what about LoC?}. For the bottom-up constructed properties, the number of properties represent the number of property macros. 
+
+\begin{table*}[htb!] 
+	\centering 
+	\caption{LSU port signals of RI5CY processor\cite{manual-ri5cy}.} 
+	\label{tab:bottom-up-ppt-resutls}
+	\begin{tabular}{l|c|p{7cm}} 
+		\multicolumn{1}{c}{\bfseries Signal} & \multicolumn{1}{c}{\bfseries Port Direction} & \multicolumn{1}{c}{\bfseries Description} \\     
+		\hline	
+		$data\_req\_o$  &  output & Request ready, must stay high until $data\_gnt\_i$ is        high for one cycle \\
+		\hline
+		$data\_addr\_o$[31:0]  &  output & Address \\
+		\hline
+		$data\_we\_o$  &  output & Write Enable, high for writes, low for reads. Sent            together with $data\_req\_o$ \\
+	\end{tabular} 
+\end{table*}
+
+Table~\ref{tab:bottom-up-check-resutls} shows the results for the running checking time and the memory used for each property. Since each instruction has its own property, a direct comparison of checking time is not possible as the pipeline properties from the PDD flow are grouped per type. Nonetheless, the total time for checking all the instructions can be compared. The time is \SSSAY{X} minutes for checking the PDD properties and \SSSAY{X} minutes for the bottom-up properties.
+
+\begin{table*}[htb!] 
+	\centering 
+	\caption{LSU port signals of RI5CY processor\cite{manual-ri5cy}.} 
+	\label{tab:bottom-up-check-resutls}
+	\begin{tabular}{l|c|p{7cm}} 
+		\multicolumn{1}{c}{\bfseries Signal} & \multicolumn{1}{c}{\bfseries Port Direction} & \multicolumn{1}{c}{\bfseries Description} \\     
+		\hline	
+		$data\_req\_o$  &  output & Request ready, must stay high until $data\_gnt\_i$ is        high for one cycle \\
+		\hline
+		$data\_addr\_o$[31:0]  &  output & Address \\
+		\hline
+		$data\_we\_o$  &  output & Write Enable, high for writes, low for reads. Sent            together with $data\_req\_o$ \\
+	\end{tabular} 
+\end{table*}

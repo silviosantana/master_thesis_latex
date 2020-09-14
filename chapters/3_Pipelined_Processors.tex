@@ -17,7 +17,7 @@ This chapter presents a brief discussion on how IPC can be used to verify a pipe
 	\label{fig:pipe-example}
 \end{figure}
 
-Since different types of instructions have very similar execution \textit{steps}, each step on the data path can be turned into a pipeline stage. For instance, a common partition adopted in different pipelined processor implementations is: 
+Since different types of instructions have very similar execution \textit{steps}, each step on the data path can be turned into a pipeline stage. For example, a common partition adopted in different pipelined processor implementations is: 
 
 \begin{itemize}
 \item Instruction Fetching (\textit{IF}): fetches a new instruction from memory to feed the pipeline;
@@ -29,7 +29,7 @@ Since different types of instructions have very similar execution \textit{steps}
 
 Certainly, each processor can have its own pipeline implementation, but they usually constitute some variation of the five presented stages.
 
-One main advantage of pipelining is increasing the instruction \textit{throughput}, the amount of processed data per time unit. This advantage is illustrated in Fig.~\ref{fig:pipe-example}. In this example, a single \textit{load} instruction takes 800 ps in a nonpipelined processor. Considering a pipelined processor with the five aforementioned stages, and with each stage taking 200 ps, the three \textit{load} instructions execute in 1400 ps, in contrast to the 2400 ps needed for the nonpipelined processor. In this example, of course, possible \textit{stallings} upon data memory wait are not considered for simplicity reasons. 
+One main advantage of pipelining is increasing the instruction \textit{throughput}, the amount of processed data per time unit. This advantage is illustrated in Fig.~\ref{fig:pipe-example}. In this example, a single \textit{load} instruction takes 800\,ps in a nonpipelined processor. Considering a pipelined processor with the five aforementioned stages, and with each stage taking 200\,ps, the three \textit{load} instructions execute in 1400\,ps, in contrast to the 2400\,ps needed for the nonpipelined processor. In this example, of course, possible \textit{stalls} caused by waiting for data memory are not considered for simplicity reasons. 
 
 \section{Property Checking for Pipelined Processors}
 \label{section:ipc-pipe-processor}
@@ -144,7 +144,7 @@ The case-split test is easy to satisfy for a set of \SSQED{} properties, since e
 
 The Property-Driven Design approach, see Sec.~\ref{section:PDD}, generates operational properties from an ESL design described in SystemC-PPA in order to prove that the later implemented RTL design is sound with respect to the ESL. The SystemC-PPA description is a sequential model from which the extracted operations represent transitions between important states. 
 
-A pipelined processor will have its operations overlapping in time, for each operation represents an instruction executing throughout the pipeline stages. Consequently, while the ESL model describes the behaviour of instructions of a program executing sequentially one after another in the processor, see the execution on top of Fig.~\ref{fig:pipe-example}, the RTL implements the pipeline where an instruction starts executing before the previous one is completed. This concurrent behaviour is shown on the bottom of Fig.~\ref{fig:pipe-example}.
+A pipelined processor will have its operations overlapping in time, for each operation represents an instruction executing throughout the pipeline stages. Consequently, while the ESL model describes the behaviour of instructions of a program executing sequentially one after another in the processor (see the execution on top of Fig.~\ref{fig:pipe-example}) the RTL implements the pipeline where an instruction starts executing before the previous one is completed. This concurrent behaviour is shown on the bottom of Fig.~\ref{fig:pipe-example}.
 
 If the ESL model does not describe the concurrent execution of operations, the generated PPA will not match the pipeline implemented in the RTL. In practice, the \textit{DeSCAM} tool (see Sec.~\ref{subsection:PDD-flow}), that generates the properties, derives the important states from communication transactions in the DUV, so the operations represent the data manipulation between communication. 
 
@@ -159,7 +159,7 @@ Let us consider the 4-stage pipeline processor defined in this chapter with two 
 
 The bigger circles in the PPA of Fig.~\ref{fig:ppa-seq} represent important states where there is some transaction with a communication port, while the smaller circles represents unimportant states. There are two important states, the \textit{IF} state that communicates with the instruction memory, and the \textit{MEM} state that communicates with the data memory.
 
-The listing of Fig.~\ref{fig:ex-pdd-add-ppt} shows an example of a property generated for an \textit{ADD} instruction from a sequential ESL. The time $t$ corresponds to the fetching time, and the time $t\_end$ to the time point after the write back, $t+4$. The property is triggered when the CPU is ready to fetch, \textit{conceptual\_state}, and a new instruction of type \textit{ADD} if fetched. At $t\_end$, after the \textit{ADD} instruction is completely executed, the commitments prove that the right result is written to the right destination register.
+The listing of Fig.~\ref{fig:ex-pdd-add-ppt} shows an example of a property generated for an \textit{ADD} instruction from a sequential ESL. The time $t$ corresponds to the fetching time, and the time $t\_end$ to the time point after the write back, $t+4$. The property is triggered when the CPU is ready to fetch, \textit{conceptual\_state}, and a new instruction of type \textit{ADD} is fetched. At $t\_end$, after the \textit{ADD} instruction is completely executed, the commitments prove that the right result is written to the right destination register.
 
 \begin{figure}[htb!]
     \begin{lstlisting}
@@ -187,5 +187,5 @@ It is important to notice that the request signal to fetch a new instruction is 
 
 Two approaches could be considered in order to apply the PDD flow for the design of a pipelined processor. First, the designer can redesign the ELS description so that it reflects the pipeline concurrent RTL behaviour. In this case, the ESL abstraction is lost because RTL implementation details are replicated at the ESL model. The second alternative is refining the pipeline within the macros for the generated instructions. Once again, the designer would have to replicate part of the RTL implementation, this time during the refinement of the macros. 
 
-For both approaches, additional effort by the designer is required, what mitigates the goal of applying the PDD method, which is accelerating the design process. Chapter~\ref{chapter:algorithm} presents how the PDD approach can be extended for pipelined processors by introducing small changes at the SystemC-PPA, and proposes an algorithm that can be used to convert the generated \textit{DeSCAM} properties into a property set that matches the pipeline concurrent behaviour. 
+For both approaches, additional effort by the designer is required, which mitigates the goal of applying the PDD method, that is to accelerate the design process. Chapter~\ref{chapter:algorithm} presents how the PDD approach can be extended for pipelined processors by introducing small changes at the SystemC-PPA, and proposes an algorithm that can be used to convert the generated \textit{DeSCAM} properties into a property set that matches the pipeline concurrent behaviour. 
 
