@@ -5,22 +5,23 @@
 
 In Chapter \ref{chapter:ri5cy}, the ESL model for the RI5CY processor core and the generation and refinement of a complete set of properties, including the pipeline and \SSQED{} properties, are presented. The current chapter discusses the experimental results for the ESL model including a comparison with the RTL implementation. In addition, the experiments analyse the property generation and property checking process. Finally, a comparison with the bottom-up verification flow is discussed.
 
-Table~\ref{tab:esl-rtl-comp} provides a comparison between the ESL model and the RTL implementation. As expected, given the higher abstraction level of the ESL, the number of \textit{Lines of Code}~(LoC) is much lower for the ESL than the RTL. The LoC for the ESL includes the RI5CY CORE and the Register File modules, since the register file is part of the core on the RTL. It is important to notice that the RTL modules for extensions that are not comprised by the ESL were not taken into consideration for counting the lines. However, there is still code referring to these extensions, and also to decoding and executing all the instructions not implemented by the ESL, present at the considered RTL modules.
+Table~\ref{tab:esl-rtl-comp} provides a comparison between the ESL model and the RTL implementation. As expected, given the higher abstraction level of the ESL, the number of \textit{Lines of Code}~(LoC) is much lower for the ESL than the RTL. The LoC counting for the ESL includes the RI5CY CORE and the Register File modules, since the register file is part of the core in the RTL. The RTL modules for extensions that are not comprised by the ESL were not taken into consideration for counting the lines. However, there is still code present at the considered RTL modules referring to these extensions, and also to decoding and executing all the instructions not implemented by the ESL. The results also include an estimated effort to implement the ESM model. This measure comprises the implementation of the RI5CY CORE and the Memory interface (IMEM), and it includes the effort to understand the pipeline behavior, i.e. pipeline stages and how each instruction is executed through them, and the \textit{flushing} behaviour. There is no measure of approximated effort for the RTL model because an existent implementation was used in the case study.  
 
 \begin{table}[htb!] 
 	\centering 
 	\caption{LoC and Simulation results for the ESL and RTL model.} 
 	\label{tab:esl-rtl-comp}
 	\begin{tabular}{p{5cm} c c} 
-		  &  \textbf{ESL} & \textbf{RTL} \\     
+		  &  \textbf{ESL} & \textbf{\SSSAY{RTL}} \\     
 		\hline	
-		Lines of Code  &  \SSSAY{XX} & XX \\
+		Lines of Code  & 856 & XX \\
+		Design Effort & 2 person weeks & - \\
 		\hline
 		\textbf{Simulation Time} (s) & & \\
 		\hline
-		Prime Numbers  &  0.6 & XX \\
-		Fibonacci  &  0.12 & XX \\
-		Bubble Sort  &  0.17 & XX \\
+		Prime Numbers  &  1.44 & XX \\
+		Fibonacci  &  0.27 & XX \\
+		Bubble Sort  &  0.34 & XX \\
 	\end{tabular} 
 \end{table}
 
@@ -28,7 +29,7 @@ The simulation results presented in Table~\ref{tab:esl-rtl-comp} refer to the si
 
 The simulations were conducted on an Intel Core~i7 8550U @~1.80\,GHz with 8\,GB of RAM. All the simulations were much faster for the ESL model, as expected. This also reflects the higher abstract implementation of the system-level compared to the RTL implementation.
 
-The same environment was used to run the \textit{DeSCAM} tool for the implemented ESL model to generate the set of micro properties. The results are presented in Table~\ref{tab:micro-ppt-results}. \textit{DeSCAM} takes approximately 28\,s to parse the ESL model and generate the micro properties set with a total of 21 properties. Considering only the LoC for the generated properties, the value is 661\,lines. Including the LoC for the generated function macros and macros to be refined, the new count is 925\,lines.
+The same environment was used to run the \textit{DeSCAM} tool for the implemented ESL model to generate the set of micro properties. The results are presented in Table~\ref{tab:micro-ppt-results}. \textit{DeSCAM} takes approximately 28\,s to parse the ESL model and generate the micro properties set with a total of 21 properties. Considering only the lines of code for the generated properties, the count is 661\,LoC. When the generated macros to be refined by the designer are considered, the new count is 925\,LoC. \textit{DeSCAM} also generates a file with macros of functions that correspond to the functions implemented at the ESL model. For this experiment, the generated file has 201 LoC, but the designer does not need to do any refinement for these macro functions.  
 
 \begin{table*}[htb!] 
 	\centering 
@@ -40,11 +41,13 @@ The same environment was used to run the \textit{DeSCAM} tool for the implemente
 		Time to generate properties  &  27.4 s  \\
 		Number of properties  &  21 \\
 		LoC (properties only)  &  661 \\
-		LoC (total)  &  925\\
+		LoC (properties \& macros)  &  925\\
 	\end{tabular} 
 \end{table*}
 
-The next step is the creation of the set of pipeline and \SSQED{} properties. Table~\ref{tab:pipe-s2qed-ppt-resutls} shows the estimated effort for merging the micro properties and refining macros to create the pipeline properties, as well the estimated effort to create the \SSQED{} property set. Even though the \SSQED{} properties are not created from any automatically generated properties, they are not build from scratch. The number of properties needed is guided by the merged pipeline properties, i.e. for each merged property corresponding to a type of instruction, a \SSQED{} should be written. In addition, the refined state macros, e.g. \textit{ready to fetch} and \textit{empty pipeline}, can be reused, as well the generated function macros. Table~\ref{tab:pipe-s2qed-ppt-resutls} also shows the resulting number of merged and \SSQED{} properties, and the number of Lines of Code for both. The difference on the number of properties between the property sets is because the \SSQED{} does not include \textit{reset}, \textit{vacuous}, \textit{flush} and \textit{unknown} properties. In addition, there is only one \SSQED{} property for both \textit{jump} instructions. For the Lines of code, only the properties were taken into consideration, as the macros and functions are common for both sets. 
+The next step is the creation of the set of pipeline and \SSQED{} properties. Table~\ref{tab:pipe-s2qed-ppt-resutls} shows the estimated effort for applying the pipeline algorithm to create the merged properties, and the estimated effort to create the \SSQED{} property set. Even though the \SSQED{} properties are not created from any automatically generated properties, they are not build from scratch. The number of properties needed is guided by the merged pipeline properties, i.e. for each merged property corresponding to a type of instruction, a \SSQED{} should be written. In addition, the refined state macros, e.g. \textit{ready to fetch} and \textit{empty pipeline}, and the generated function macros can be reused. The effort shown for the pipeline property set takes into consideration the application of the pipeline algorithm to merge the micro properties, but not the macros refinement.The estimated effort to refine the macros is 1\,\textit{person\,week}. This effort is considerably large because the RI5CY user manual \cite{manual-ri5cy} does not have detailed specification and much of the effort went towards extracting information from the RTL implementation.
+
+Table~\ref{tab:pipe-s2qed-ppt-resutls} also shows the resulting number of merged and \SSQED{} properties, and the number of Lines of Code for both. The difference on the number of properties between the property sets occurs because the \SSQED{} set does not include the \textit{reset}, \textit{vacuous}, \textit{flush} and \textit{unknown} properties. In addition, there is only one \SSQED{} property for both \textit{jump} instructions. Regarding the lines of code, only the properties were taken into consideration, since the macros and functions are common for both sets.
 
 \begin{table*}[htb!] 
 	\centering 
@@ -53,13 +56,13 @@ The next step is the creation of the set of pipeline and \SSQED{} properties. Ta
 	\begin{tabular}{p{5cm} c c} 
 		  &  \textbf{Pipeline} & \textbf{\SSQED{}} \\     
 		\hline	
-		Effort  &  \SSSAY{XX} & XX \\
+		Effort  &  5 person hours & 1 person week \\
 		Number of Properties  &  13 & 8 \\
 		Lines of Code  &  634 & 502 \\
 	\end{tabular} 
 \end{table*}
 
-Finally, the resulting property set was check for the RTL design. The property checking was conducted with the commercial property checker OneSpin~360~DV-Certify \texttrademark{} running on an Intel Xeon~E5-2637~v4  @~3.50\,GHz with 96\,GB of RAM. Table~\ref{tab:pipe-s2qed-check-resutls} shows the running checking time and used memory results both pipeline and \SSQED{} property sets.
+Finally, the resulting property set was checked for the RTL design. The property checking was conducted with the commercial property checker OneSpin~360~DV-Certify \texttrademark{} running on an Intel Xeon~E5-2637~v4  @~3.50\,GHz with 96\,GB of RAM. Table~\ref{tab:pipe-s2qed-check-resutls} shows the checking time and memory used results both pipeline and \SSQED{} property sets.
 
 \begin{table*}[htb!] 
 	\centering 
@@ -70,32 +73,32 @@ Finally, the resulting property set was check for the RTL design. The property c
           \hline
          Instruction Type & Time (h:m) & Mem.(GB) & Time (h:m) & Mem.(GB)  \\
           \hline
-        ENC\_R & \SSSAY{XX} & \SSSAY{XX} & 1:37 &  21.4  \\
-        ENC\_I\_I &     &  & 11:27 &  26.5\\
-        ENC\_B taken  &  &  & 1:12 & 19\\
-        ENC\_B not taken &    &   & 1:07 &  24  \\
-        ENC\_J &    &   & - &  -  \\
-        ENC\_I\_J &    &   & - &  -  \\
-        ENC\_JUMP &    &   & 10:27 &  23  \\
-        ENC\_I\_L &    &   & \SSSAY{XX} & \SSSAY{XX}  \\
-        ENC\_S &    &   & 4:15 &  24.9  \\
-        ENC\_U &    &   & 9:02 & 20.7  \\
-        RESET &    &   & - &  -  \\
-        FLUSH &    &   & - &  -  \\
-        UNKNOWN &    &   & - &  -  \\
-        VACUOUS &    &   & - &  -  \\
+        ENC\_R & 00:23 & 9.7 & 1:37 &  21.4  \\
+        ENC\_I\_I & 00:19 & 9.4 & 11:27 &  26.5\\
+        ENC\_B taken  & 00:02 & 8.8 & 1:12 & 19\\
+        ENC\_B not taken & 00:10 & 9.4 & 1:07 &  24  \\
+        ENC\_J & 00:03 & 8.7 & - &  -  \\
+        ENC\_I\_J & 00:07 & 9.7 & - &  -  \\
+        ENC\_JUMP & - & - & 10:27 &  23  \\
+        ENC\_I\_L & 1:00 & 23.3 & \SSSAY{X} & \SSSAY{X}  \\
+        ENC\_S & 00:08 & 12.2 & 4:15 &  24.9  \\
+        ENC\_U & \SSSAY{X} & \SSSAY{X} & 9:02 & 20.7  \\
+        RESET & < 0:01 & 1.1 & - &  -  \\
+        FLUSH & 00:10 & 7.8 & - &  -  \\
+        UNKNOWN & < 0:01 & 5.5 & - &  -  \\
+        VACUOUS & < 0:01 & 0.9 & - &  -  \\
 \end{tabular}
 \end{table*}
 
 The longer checking time for the pipeline properties occurred for the \textit{ENC\_I\_L} instruction type. This is justified by the inserted bounded wait of five cycles for the data memory. The \textit{ENC\_I\_L} is followed by \textit{ENC\_R} and \textit{ENC\_I\_I} types. This is because these types comprise the greater number of associated instructions, for instance all the arithmetic, logic, and logic shift instructions. \SSSAY{ENC\_UI results pending. It may take longer}
 
-The results for the \SSQED{} property set were obtained with some constraints regarding the number of registers considered for the checker. All the register fields of the IUV were restricted to be lower than five, i.e. the instruction will access the four first register of the register file. In addition, the bounded wait for \textit{load} and \textit{store} instructions were limited to three instead of five. These restrictions were applied to reduce the complexity for the property checker, to avoid running out of memory or taking too long to finish.
+The results for the \SSQED{} property set were obtained with some constraints regarding the number of registers considered for the checker. All the register fields of the IUV were restricted to be lower than five, i.e. the instruction will access the four first register of the register file. In addition, the bounded wait for \textit{load} and \textit{store} instructions were limited to three instead of five. These restrictions were applied to reduce the complexity for the property checker. This complexity issue is evidenced when comparing both checking time and memory used between the \SSQED{} properties set with the pipeline properties set. Both measurements are much higher for the \SSQED{} set than for the pipeline set for all instruction types.
 
 Even though the checking time required for making a property hold can be of several minutes, or even hours, the property checking tool needs much less to find a bug. When a bug was inserted on the forwarding mechanism of the processor core, the tool needed only \SSSAY{how many?} minutes to find a counter-example for a \textit{load} instruction and  \SSSAY{how many?} minutes for an \textit{add} instruction.
 
 For means of comparison, the experiments included the creation of pipeline properties in a \textit{bottom-up} approach. This property set was created strictly from the behaviour extracted from the RTL design, and it is not part of the PDD flow. In this case, the properties were created from the ground up based on the implemented RTL and its signals. No automatically generated macros or functions were used. One property for each instruction was created. However, macros were employed to unify the properties of each type of instruction, and each instruction property just instantiated the corresponding macro, e.g. all arithmetic and logic instructions of R-type and I-type use the same property macro. This use of macros resulted in eight property macros.
 
-Table~\ref{tab:bottom-up-ppt-resutls} shows the experimental results of the bottom-up constructed pipeline properties in comparison to the pipelined properties merged from the micro properties in the PDD flow. The results indicate a much larger effort to create the properties from bottom-up than with the PDD flow using an ESL model. \SSSAY{what about LoC?}. For the bottom-up constructed properties, the number of properties represent the number of property macros. 
+Table~\ref{tab:bottom-up-ppt-resutls} shows the experimental results of the bottom-up constructed pipeline properties in comparison to the pipelined properties merged from the micro properties in the PDD flow. The results indicate a much larger effort to create the properties from bottom-up than with the PDD flow using an ESL model. The effort shown in the "Pipeline PDD" combines the effort for merging the properties and refining the macros in the PDD flow. The lines of code includes the code for both properties and refined macros. For the bottom-up constructed properties, the number of properties represent the number of property macros. It has less properties macros than pipeline properties because it does not have properties for unknown instruction and \textit{flushing}. In addition, all R-type and I-type arithmetic and logic instructions are described by the same macro property. The same happens for the \textit{jal} and \textit{jalr} instructions. 
 
 \begin{table*}[htb!] 
 	\centering 
@@ -104,13 +107,13 @@ Table~\ref{tab:bottom-up-ppt-resutls} shows the experimental results of the bott
 	\begin{tabular}{p{5cm} c c} 
 		  &  \textbf{Botton-up} & \textbf{Pipeline (PDD)} \\     
 		\hline	
-		Effort  &  \SSSAY{XX} &  \\
-		Number of Properties  &   & 13 \\
-		Lines of Code  &   &  \SSSAY{total}\\
+		Effort  &  1 person month &  8 person days\\
+		Number of Properties  &  8 & 13 \\
+		Lines of Code  & 879  &  834\\
 	\end{tabular}
 \end{table*}
 
-Table~\ref{tab:bottom-up-check-resutls} shows the results for the running checking time and the memory used for each property. Since each instruction has its own property, a direct comparison of checking time is not possible as the pipeline properties from the PDD flow are grouped per type. Nonetheless, the total time for checking all the instructions can be compared. The time is \SSSAY{X} minutes for checking the PDD properties and \SSSAY{X} minutes for the bottom-up properties.
+Table~\ref{tab:bottom-up-check-resutls} shows the results for the running checking time and the memory used for each property. Since each instruction has its own property, a direct comparison of checking time is not possible as the pipeline properties from the PDD flow are grouped per type. Nonetheless, the total time for checking all the instructions can be compared. The checking time for the PDD pipeline properties is \SSSAY{X} minutes, and \SSSAY{X} minutes for the bottom-up properties.
 
 \begin{table*}[htb!] 
 	\centering 
@@ -121,8 +124,66 @@ Table~\ref{tab:bottom-up-check-resutls} shows the results for the running checki
           \hline
          Instruction Type & Time (h:m) & Mem.(GB)  \\
           \hline
-        ENC\_R & \SSSAY{XX} & \SSSAY{XX}  \\
-        ENC\_I\_I &     & \\
-        ENC\_B taken  &  & \\
+        add     & \SSSAY{XX} & \SSSAY{XX}  \\
+        sub    &  &  \\
+        sll     &  &  \\
+        slt    &  &  \\
+        sltu    &  &  \\
+        xor    &  &  \\
+        slr    &  &  \\
+        sra    &  &  \\
+        or    &  &  \\
+        and    &  &  \\
+        addi    &  &  \\
+        slti    &  &  \\
+        sltiu    &  &  \\
+        xori    &  &  \\
+        ori    &  &  \\
+        andi    &  &  \\
+        slli    &  &  \\
+        srli    &  &  \\
+        srai    &  &  \\
+        beq taken    &  &  \\
+        beq not taken     &  &  \\
+        bne taken    &  &  \\
+        bne not taken    &  &  \\
+        blt taken    &  &  \\
+        blt not taken    &  &  \\
+        bge taken    &  &  \\
+        bge not taken    &  &  \\
+        bltu taken    &  &  \\
+        bltu not taken    &  &  \\
+        bgeu taken    &  &  \\
+        bgeu not taken    &  &  \\
+        jal    &  &  \\
+        jalr    &  &  \\
+        lb    &  &  \\
+        lh    &  &  \\
+        lw    &  &  \\
+        lbu    &  &  \\
+        lhu    &  &  \\
+        sb    &  &  \\
+        sh    &  &  \\
+        sw    &  &  \\
+        lui    &  &  \\
+        auipc    &  &  \\
+        reset    &  &  \\
+        
+\end{tabular}
+\begin{tabular}{lcc}
+          \multicolumn{3}{c}{\textbf{Bottom-up Pipeline Properties}} \\
+          \hline
+         Instruction Type & Time (h:m) & Mem.(GB)   \\
+          \hline
+        ENC\_R & 00:42 &    \\
+        ENC\_I\_I & 00:19 &  \\
+        ENC\_B taken  & 00:02 & \\
+        ENC\_B not taken & 00:10 &    \\
+        ENC\_J & 00:03 &    \\
+        ENC\_I\_J & 00:07 &    \\
+        ENC\_I\_L & 1:00 &   \\
+        ENC\_S & 00:08 &    \\
+        ENC\_U & \SSSAY{X} &   \\
+        RESET & < 0:01 &    \\
 \end{tabular}
 \end{table*}
