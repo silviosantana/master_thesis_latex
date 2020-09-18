@@ -2,6 +2,7 @@
 % Results
 % ----------------------------------------------------------
 \chapter{Experimental Results}
+\label{chapter:results}
 
 In Chapter \ref{chapter:ri5cy}, the ESL model for the RI5CY processor core and the generation and refinement of a complete set of properties, including the pipeline and \SSQED{} properties, are presented. The current chapter discusses the experimental results for the ESL model including a comparison with the RTL implementation. In addition, the experiments analyse the property generation and property checking process. Finally, a comparison with the bottom-up verification flow is discussed.
 
@@ -82,7 +83,7 @@ Finally, the resulting property set was checked for the RTL design. The property
         ENC\_JUMP & - & - & 10:27 &  23  \\
         ENC\_I\_L & 1:00 & 23.3 & \SSSAY{X} & \SSSAY{X}  \\
         ENC\_S & 00:08 & 12.2 & 4:15 &  24.9  \\
-        ENC\_U & \SSSAY{X} & \SSSAY{X} & 9:02 & 20.7  \\
+        ENC\_U & 00:14 & 9.4 & 9:02 & 20.7  \\
         RESET & < 0:01 & 1.1 & - &  -  \\
         FLUSH & 00:10 & 7.8 & - &  -  \\
         UNKNOWN & < 0:01 & 5.5 & - &  -  \\
@@ -90,11 +91,11 @@ Finally, the resulting property set was checked for the RTL design. The property
 \end{tabular}
 \end{table*}
 
-The longer checking time for the pipeline properties occurred for the \textit{ENC\_I\_L} instruction type. This is justified by the inserted bounded wait of five cycles for the data memory. The \textit{ENC\_I\_L} is followed by \textit{ENC\_R} and \textit{ENC\_I\_I} types. This is because these types comprise the greater number of associated instructions, for instance all the arithmetic, logic, and logic shift instructions. \SSSAY{ENC\_UI results pending. It may take longer}
+The longer checking time for the pipeline properties occurred for the \textit{ENC\_I\_L} instruction type. This is justified by the inserted bounded wait of five cycles for the data memory. The \textit{ENC\_I\_L} is followed by \textit{ENC\_R} and \textit{ENC\_I\_I} types. This is because these types comprise the greater number of associated instructions, for instance all the arithmetic, logic, and logic shift instructions.
 
 The results for the \SSQED{} property set were obtained with some constraints regarding the number of registers considered for the checker. All the register fields of the IUV were restricted to be lower than five, i.e. the instruction will access the four first register of the register file. In addition, the bounded wait for \textit{load} and \textit{store} instructions were limited to three instead of five. These restrictions were applied to reduce the complexity for the property checker. This complexity issue is evidenced when comparing both checking time and memory used between the \SSQED{} properties set with the pipeline properties set. Both measurements are much higher for the \SSQED{} set than for the pipeline set for all instruction types.
 
-Even though the checking time required for making a property hold can be of several minutes, or even hours, the property checking tool needs much less to find a bug. When a bug was inserted on the forwarding mechanism of the processor core, the tool needed only \SSSAY{how many?} minutes to find a counter-example for a \textit{load} instruction and  \SSSAY{how many?} minutes for an \textit{add} instruction.
+Even though the checking time required for making a property hold can be of several minutes, or even hours, the property checking tool needs much less to find a \textit{bug}. A \textit{bug} was inserted on the forwarding mechanism of the processor core. This type of error is only detected by the \SSQED{} property set, since \textit{forwarding} only happens for specific program contexts where instructions at different pipeline stages interact. The property checking tool needed 4\,min\,and\,58\,s to find a counter-example for an \textit{ENC\_I\_L} \SSQED{} property, and only 2\,min\,and\,6\,s for an \textit{ENC\_R} \SSQED{} property. Similarly, a \textit{bug} was inserted on the operand signals from the register file to the ALU. This type of \textit{bug} is considered single-instruction error because it can be spotted by properties for IUV executing in an empty pipeline. Thus, the property checking tool found a counter-example for an \textit{ENC\_I\_L} pipeline property in 1\,min\,and\,36\,s and for an \textit{ENC\_R} pipeline property in 15\,s.
 
 For means of comparison, the experiments included the creation of pipeline properties in a \textit{bottom-up} approach. This property set was created strictly from the behaviour extracted from the RTL design, and it is not part of the PDD flow. In this case, the properties were created from the ground up based on the implemented RTL and its signals. No automatically generated macros or functions were used. One property for each instruction was created. However, macros were employed to unify the properties of each type of instruction, and each instruction property just instantiated the corresponding macro, e.g. all arithmetic and logic instructions of R-type and I-type use the same property macro. This use of macros resulted in eight property macros.
 
