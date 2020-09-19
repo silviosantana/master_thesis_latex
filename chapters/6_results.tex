@@ -114,77 +114,72 @@ Table~\ref{tab:bottom-up-ppt-resutls} shows the experimental results of the bott
 	\end{tabular}
 \end{table*}
 
-Table~\ref{tab:bottom-up-check-resutls} shows the results for the running checking time and the memory used for each property. Since each instruction has its own property, a direct comparison of checking time is not possible as the pipeline properties from the PDD flow are grouped per type. Nonetheless, the total time for checking all the instructions can be compared. The checking time for the PDD pipeline properties is \SSSAY{X} minutes, and \SSSAY{X} minutes for the bottom-up properties.
+Tables \ref{tab:bottom-up-check-resutls-arithm} and \ref{tab:bottom-up-check-resutls-others} shows the results for the running checking time and the memory used for each property. Since each instruction has its own property, a direct comparison of checking time is not possible as the pipeline properties from the PDD flow are grouped per type. Nonetheless, the total time for checking all the instructions can be compared. The checking time for the PDD pipeline properties is 2:36~h, and 9:21~h for the bottom-up properties. This time difference can not be directly associated with a complexity difference between the two sets of properties. It demonstrates, however, the advantages of having a set of instructions of the same time grouped into a single property.
 
 \begin{table*}[htb!] 
 	\centering 
-	\caption{Checking time and memory used results for pipeline properties created on a bottom-up approach.} 
-	\label{tab:bottom-up-check-resutls}
+	\caption{Checking time and memory used results for pipeline properties created on a bottom-up approach. Results for arithmetic and logic instructions from types \textit{ENC\_R} and \textit{ENC\_I\_I}.} 
+	\label{tab:bottom-up-check-resutls-arithm}
 		\begin{tabular}{p{4cm}cc}
           \multicolumn{3}{c}{\textbf{Bottom-up Pipeline Properties}} \\
           \hline
-         Instruction Type & Time (h:m) & Mem.(GB)  \\
+         Instruction Type & Time (min:s) & Mem.(GB)  \\
           \hline
-        add     & \SSSAY{XX} & \SSSAY{XX}  \\
-        sub    &  &  \\
-        sll     &  &  \\
-        slt    &  &  \\
-        sltu    &  &  \\
-        xor    &  &  \\
-        slr    &  &  \\
-        sra    &  &  \\
-        or    &  &  \\
-        and    &  &  \\
-        addi    &  &  \\
-        slti    &  &  \\
-        sltiu    &  &  \\
-        xori    &  &  \\
-        ori    &  &  \\
-        andi    &  &  \\
-        slli    &  &  \\
-        srli    &  &  \\
-        srai    &  &  \\
-        beq taken    &  &  \\
-        beq not taken     &  &  \\
-        bne taken    &  &  \\
-        bne not taken    &  &  \\
-        blt taken    &  &  \\
-        blt not taken    &  &  \\
-        bge taken    &  &  \\
-        bge not taken    &  &  \\
-        bltu taken    &  &  \\
-        bltu not taken    &  &  \\
-        bgeu taken    &  &  \\
-        bgeu not taken    &  &  \\
-        jal    &  &  \\
-        jalr    &  &  \\
-        lb    &  &  \\
-        lh    &  &  \\
-        lw    &  &  \\
-        lbu    &  &  \\
-        lhu    &  &  \\
-        sb    &  &  \\
-        sh    &  &  \\
-        sw    &  &  \\
-        lui    &  &  \\
-        auipc    &  &  \\
-        reset    &  &  \\
-        
+        add     & 04:45 & 9.4  \\
+        sub    & 05:09 & 9.3 \\
+        sll     & 05:33 & 9.6 \\
+        slt    & 04:15 & 9 \\
+        sltu    & 03:44 & 9.2 \\
+        xor    & 04.20 & 9 \\
+        srl    & 04:06 & 9.3 \\
+        sra    & 03:27 & 9 \\
+        or    & 05:04 & 9.4 \\
+        and    & 03:12 & 9.4 \\
+        addi    & 05:08 & 9.5 \\
+        slti    & 02:17 & 9.3 \\
+        sltiu    & 02:29 & 9 \\
+        xori    & 03:46 & 9.4 \\
+        ori    & 04:13 & 9.3 \\
+        andi    & 03:49 & 9.3 \\
+        slli    & 04:37 & 9.6 \\
+        srli    & 04.19 & 9.2 \\
+        srai    & 03:37 & 9.3 \\
 \end{tabular}
-\begin{tabular}{lcc}
+\end{table*}
+
+\begin{table*}[htb!] 
+	\centering 
+	\caption{Checking time and memory used results for pipeline properties created on a bottom-up approach. Results for \textit{branch}, \textit{jump}, \textit{load}, \textit{store}, \textit{lui}, \textit{auipc}, and \textit{reset} instructions from types \textit{ENC\_B}, \textit{ENC\_J}, \textit{ENC\_I\_J}, \textit{ENC\_I\_L}, \textit{ENC\_S}, and \textit{ENC\_U}.} 
+	\label{tab:bottom-up-check-resutls-others}
+		\begin{tabular}{p{4cm}cc}
           \multicolumn{3}{c}{\textbf{Bottom-up Pipeline Properties}} \\
           \hline
-         Instruction Type & Time (h:m) & Mem.(GB)   \\
+         Instruction Type & Time (min:s) & Mem.(GB)  \\
           \hline
-        ENC\_R & 00:42 &    \\
-        ENC\_I\_I & 00:19 &  \\
-        ENC\_B taken  & 00:02 & \\
-        ENC\_B not taken & 00:10 &    \\
-        ENC\_J & 00:03 &    \\
-        ENC\_I\_J & 00:07 &    \\
-        ENC\_I\_L & 1:00 &   \\
-        ENC\_S & 00:08 &    \\
-        ENC\_U & \SSSAY{X} &   \\
-        RESET & < 0:01 &    \\
+        beq taken    & 19:43 & 10.4 \\
+        beq not taken     & 13:22 & 10.5 \\
+        bne taken    & 23:09 & 11.7 \\
+        bne not taken    & 12:28 & 9.7 \\
+        blt taken    & 25:46 & 11.5 \\
+        blt not taken    & 11:37 & 9.6 \\
+        bge taken    & 20:10 & 10.4 \\
+        bge not taken    & 15:09 & 10.2 \\
+        bltu taken    & 22:06 & 12 \\
+        bltu not taken    & 13:55 & 9.7 \\
+        bgeu taken    & 22:08 & 10.2 \\
+        bgeu not taken    & 12:35 & 10.1 \\
+        jal    & 03:45 & 8.8 \\
+        jalr    & 04:33 & 9.1 \\
+        lb    & 37:46 & 18.3 \\
+        lh    & 69:47 & 24.6 \\
+        lw    & 28:06 & 19.8 \\
+        lbu    & 41:42 & 16.3 \\
+        lhu    & 46:22 & 20.3 \\
+        sb    & 09:19 & 14.2 \\
+        sh    & 10:06 & 12 \\
+        sw    & 13:00 & 12.3 \\
+        lui    & 03:17 & 9.3 \\
+        auipc    & 03:33 & 9.2 \\
+        reset    & 00:03 & 1.5 \\
 \end{tabular}
 \end{table*}
