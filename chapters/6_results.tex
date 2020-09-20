@@ -4,33 +4,31 @@
 \chapter{Experimental Results}
 \label{chapter:results}
 
-In Chapter \ref{chapter:ri5cy}, the ESL model for the RI5CY processor core and the generation and refinement of a complete set of properties, including the pipeline and \SSQED{} properties, are presented. The current chapter discusses the experimental results for the ESL model including a comparison with the RTL implementation. In addition, the experiments analyse the property generation and property checking process. Finally, a comparison with the bottom-up verification flow is discussed.
+In Chapter \ref{chapter:ri5cy}, the ESL model for the RI5CY processor core and the generation and refinement of a complete set of properties, including the pipeline and \SSQED{} properties, are presented. The current chapter discusses the experimental results for the ESL model including a simulation comparison with the RTL implementation. In addition, the experiments analyse the property generation and property checking process. Finally, a comparison with the bottom-up verification flow is discussed. All experiments were conducted on an Intel Xeon~E5-2637~v4  @~3.50\,GHz with 96\,GB of RAM.
 
-Table~\ref{tab:esl-rtl-comp} provides a comparison between the ESL model and the RTL implementation. As expected, given the higher abstraction level of the ESL, the number of \textit{Lines of Code}~(LoC) is much lower for the ESL than the RTL. The LoC counting for the ESL includes the RI5CY CORE and the Register File modules, since the register file is part of the core in the RTL. The RTL modules for extensions that are not comprised by the ESL were not taken into consideration for counting the lines. However, there is still code present at the considered RTL modules referring to these extensions, and also to decoding and executing all the instructions not implemented by the ESL. The results also include an estimated effort to implement the ESM model. This measure comprises the implementation of the RI5CY CORE and the Memory interface (IMEM), and it includes the effort to understand the pipeline behavior, i.e. pipeline stages and how each instruction is executed through them, and the \textit{flushing} behaviour. There is no measure of approximated effort for the RTL model because an existent implementation was used in the case study.  
+Table~\ref{tab:esl-rtl-comp} provides the number of \textit{Lines of Code}~(LoC) and estimated design effort for the ESL model, in addition to the simulation results for both ESL and RTL models. The LoC counting for the ESL includes the RI5CY CORE and the Register File modules. The register file is included in the counting because it is a embodied part of the core. On the other hand, the memory bridge (IMEM) and the memory itself are not considered for the LoC measurement. The estimated design effort to implement the ESL model comprises the implementation of the RI5CY CORE and the Memory interface (IMEM), and it includes the effort to understand the pipeline behavior, i.e. pipeline stages and how each instruction is executed through them, and the \textit{flushing} behaviour. There is no measure of LoC and approximated effort for the RTL model because an existent implementation was used in the case study and the PULP extensions were not considered for modeling the ESL.  
 
 \begin{table}[htb!] 
 	\centering 
-	\caption{LoC and Simulation results for the ESL and RTL model.} 
+	\caption{LoC and effort results for ESL model, and simulation comparison results for the ESL and RTL models.} 
 	\label{tab:esl-rtl-comp}
 	\begin{tabular}{p{5cm} c c} 
-		  &  \textbf{ESL} & \textbf{\SSSAY{RTL}} \\     
+		  &  \multicolumn{2}{c}{\textbf{ESL}} \\     
 		\hline	
-		Lines of Code  & 856 & XX \\
-		Design Effort & 2 person weeks & - \\
+		Lines of Code  & \multicolumn{2}{c}{856} \\
+		Design Effort & \multicolumn{2}{c}{2 person weeks}\\
 		\hline
-		\textbf{Simulation Time} (s) & & \\
+		\textbf{Simulation Time} (s) & \textbf{ESL} & \textbf{RTL}\\
 		\hline
-		Prime Numbers  &  1.44 & XX \\
-		Fibonacci  &  0.27 & XX \\
-		Bubble Sort  &  0.34 & XX \\
+		Prime Numbers  &  0.67 & 43 \\
+		Fibonacci  &  0.10 & 42 \\
+		Bubble Sort  &  0.14 & 46 \\
 	\end{tabular} 
 \end{table}
 
-The simulation results presented in Table~\ref{tab:esl-rtl-comp} refer to the simulation of three computation-heavy programs for the ESL and RTL models. The first program computes ten prime numbers greater than 1000. The second one computes 1000 numbers of the Fibonacci sequence. The third program implements the execution of the \textit{Bubble Sort} algorithm to sort an array of 50 integers in ascending order. To consider the worse-case execution time for \textit{Bubble Sort}, the array is initially sorted in descending order.
+The simulation results presented in Table~\ref{tab:esl-rtl-comp} refer to the simulation of three computation-heavy programs for the ESL and RTL models. The first program computes ten prime numbers greater than 1000. The second one computes 1000 numbers of the Fibonacci sequence. The third program implements the execution of the \textit{Bubble Sort} algorithm to sort an array of 50 integers in ascending order. To consider the worse-case execution time for \textit{Bubble Sort}, the array is initially sorted in descending order. The simulations for the ESL model were approximately 144~times faster the RTL simulation. This expected simulation \textit{speedup} reflects the higher abstract implementation of the system-level compared to the RTL implementation.
 
-The simulations were conducted on an Intel Core~i7 8550U @~1.80\,GHz with 8\,GB of RAM. All the simulations were much faster for the ESL model, as expected. This also reflects the higher abstract implementation of the system-level compared to the RTL implementation.
-
-The same environment was used to run the \textit{DeSCAM} tool for the implemented ESL model to generate the set of micro properties. The results are presented in Table~\ref{tab:micro-ppt-results}. \textit{DeSCAM} takes approximately 28\,s to parse the ESL model and generate the micro properties set with a total of 21 properties. Considering only the lines of code for the generated properties, the count is 661\,LoC. When the generated macros to be refined by the designer are considered, the new count is 925\,LoC. \textit{DeSCAM} also generates a file with macros of functions that correspond to the functions implemented at the ESL model. For this experiment, the generated file has 201 LoC, but the designer does not need to do any refinement for these macro functions.  
+The same environment was used to run the \textit{DeSCAM} tool for the implemented ESL model to generate the set of micro properties. The results are presented in Table~\ref{tab:micro-ppt-results}. \textit{DeSCAM} takes approximately 24\,s to parse the ESL model and generate the micro properties set with a total of 21 properties. Considering only the lines of code for the generated properties, the count is 661\,LoC. When the generated macros to be refined by the designer are considered, the new count is 925\,LoC. \textit{DeSCAM} also generates a file with macros of functions that correspond to the functions implemented at the ESL model. For this experiment, the generated file has 201 LoC, but the designer does not need to do any refinement for these macro functions.  
 
 \begin{table*}[htb!] 
 	\centering 
@@ -39,7 +37,7 @@ The same environment was used to run the \textit{DeSCAM} tool for the implemente
 	\begin{tabular}{p{6cm} c } 
 		\multicolumn{2}{c}{\textbf{Micro Properties Set}} \\  
 		\hline	
-		Time to generate properties  &  27.4 s  \\
+		Time to generate properties  &  23.6 s  \\
 		Number of properties  &  21 \\
 		LoC (properties only)  &  661 \\
 		LoC (properties \& macros)  &  925\\
@@ -63,7 +61,7 @@ Table~\ref{tab:pipe-s2qed-ppt-resutls} also shows the resulting number of merged
 	\end{tabular} 
 \end{table*}
 
-Finally, the resulting property set was checked for the RTL design. The property checking was conducted with the commercial property checker OneSpin~360~DV-Certify \texttrademark{} running on an Intel Xeon~E5-2637~v4  @~3.50\,GHz with 96\,GB of RAM. Table~\ref{tab:pipe-s2qed-check-resutls} shows the checking time and memory used results both pipeline and \SSQED{} property sets.
+Finally, the resulting property set was checked for the RTL design. The property checking was conducted with the commercial property checker OneSpin~360~DV-Certify \texttrademark{}. Table~\ref{tab:pipe-s2qed-check-resutls} shows the checking time and memory used results both pipeline and \SSQED{} property sets.
 
 \begin{table*}[htb!] 
 	\centering 
@@ -74,20 +72,20 @@ Finally, the resulting property set was checked for the RTL design. The property
           \hline
          Instruction Type & Time (h:m) & Mem.(GB) & Time (h:m) & Mem.(GB)  \\
           \hline
-        ENC\_R & 00:23 & 9.7 & 1:37 &  21.4  \\
+        ENC\_R & 00:23 & 9.7 & 01:37 &  21.4  \\
         ENC\_I\_I & 00:19 & 9.4 & 11:27 &  26.5\\
-        ENC\_B taken  & 00:02 & 8.8 & 1:12 & 19\\
-        ENC\_B not taken & 00:10 & 9.4 & 1:07 &  24  \\
+        ENC\_B taken  & 00:02 & 8.8 & 01:12 & 19\\
+        ENC\_B not taken & 00:10 & 9.4 & 01:07 &  24  \\
         ENC\_J & 00:03 & 8.7 & - &  -  \\
         ENC\_I\_J & 00:07 & 9.7 & - &  -  \\
         ENC\_JUMP & - & - & 10:27 &  23  \\
-        ENC\_I\_L & 1:00 & 23.3 & \SSSAY{X} & \SSSAY{X}  \\
-        ENC\_S & 00:08 & 12.2 & 4:15 &  24.9  \\
-        ENC\_U & 00:14 & 9.4 & 9:02 & 20.7  \\
-        RESET & < 0:01 & 1.1 & - &  -  \\
+        ENC\_I\_L & 01:00 & 23.3 & 17:07 & 33.6  \\
+        ENC\_S & 00:08 & 12.2 & 04:15 &  24.9  \\
+        ENC\_U & 00:14 & 9.4 & 09:02 & 20.7  \\
+        RESET & < 00:01 & 1.1 & - &  -  \\
         FLUSH & 00:10 & 7.8 & - &  -  \\
-        UNKNOWN & < 0:01 & 5.5 & - &  -  \\
-        VACUOUS & < 0:01 & 0.9 & - &  -  \\
+        UNKNOWN & < 00:01 & 5.5 & - &  -  \\
+        VACUOUS & < 00:01 & 0.9 & - &  -  \\
 \end{tabular}
 \end{table*}
 
