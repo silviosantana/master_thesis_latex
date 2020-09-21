@@ -74,7 +74,7 @@
 \newcommand{\tabitem}{~~\llap{\textbullet}~~}
 
 \usepackage{capt-of}
-\usepackage{caption}
+\usepackage[labelfont=it,width=0.9\linewidth]{caption}
 \usepackage{listings}
 % \renewcommand{\lstlistingname}{Quelltext}
 \renewcommand*{\lstlistlistingname}{List of \lstlistingname s}
@@ -211,6 +211,18 @@
 
 \usepackage[shortlabels]{enumitem}
 
+\usepackage[pages=some]{background}
+
+\backgroundsetup{
+scale=1,
+color=black,
+opacity=0.4,
+angle=0,
+contents={%
+  \includegraphics[width=\paperwidth,height=\paperheight]{images/eit_deck_1.pdf}
+  }%
+}
+
 
 \definecolor{codegreen}{rgb}{0,0.6,0}
 \definecolor{codegray}{rgb}{0.5,0.5,0.5}
@@ -240,11 +252,46 @@
 
 \newcommand{\SSQED }{S$^2$QED}
 
+
 \input{eis-definitions}
 \input{eis-collaborative-editing}
 
 \begin{document}
+\thispagestyle{empty}
+\BgThispage
+\EN{\selectlanguage{english}}
+\DE{\selectlanguage{german}}
 
+\EN{\title{\ThesisTitle}}%
+
+\pagenumbering{arabic} 
+\hyphenation{Bit-ebenen Gateprop Bit-ebene Fanin Boole-sche
+  Partial-produkt-generator
+  Code-inspektion
+  Verifika-tions-ablauf
+  IPC-Verifika-tions-ablauf
+  Abhangig-keiten
+}
+\frontmatter
+\begin{center}
+  \mbox{}
+  %\vspace{3cm} 
+\vspace{3cm} 
+
+  \Large{\textbf{\ThesisTitle}}
+
+\normalsize  
+ 
+ \vspace{2cm} 
+
+  \textit{Sílvio Heverton Campelo de Santana}\\ 
+
+  \vspace{13cm} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  Master Thesis 2020 \\
+\end{center}
+\newpage
 %\lhead[\fancyplain{}{\thepage}]         {\fancyplain{}{\rightmark}}
 %\chead[\fancyplain{}{}]                 {\fancyplain{}{}}
 %\rhead[\fancy{}{\rightmark}]       {\fancy{}{\thepage}}
@@ -287,7 +334,6 @@
   Abhangig-keiten
 }
 
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % title page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -295,9 +341,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % titel page
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 \thispagestyle{empty}
-
 \begin{center}
   \mbox{}
   %\vspace{3cm} 
@@ -305,7 +349,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Insert your title here
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
 %   \Large{\ThesisTitleGerman}
 %   %\vspace{1cm}
 %   \EN{\\\large {\ThesisTitle}}
@@ -367,8 +410,8 @@ Entwurf informationstechnischer Systeme,\\}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \MS{\begin{tabular}[t]{l@{\hspace{1cm}}l}
   Betreuer: 
-  & Betreuer1, \\
-  & Betreuer2 \\ 
+  & Betreuer1\SSSAY{who to include here?}, \\
+  & Betreuer2\SSSAY{who to include here?} \\ 
 \end{tabular}}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -440,20 +483,19 @@ Homburg (Saar), 02.05.2015}
 \MS{\newpage
 \thispagestyle{empty}
 \mbox{}
-{\raggedright \newline\textbf{Eidesstattliche Erkl\"arung}
-
-Hiermit versichere ich, die nachfolgende Arbeit selbstständig und nur unter Verwendung der angegebenen Hilfsmittel angefertigt zu haben.
+{\raggedright
 
 \EN{\vspace{1cm}\textbf{Certification}
 
-I hereby declare that this submission is my own work and that I only used the resources specified. 
+I hereby declare that the present thesis is drawn up after MPO Elektrotechnik und Informationstechnik by myself without help of third parties but the support of my supervisor, that all used sources and tools including the internet are completely and exactly mentioned, and that everything is marked which is taken unchanged, shortened or analogous from other literature
+
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % MASTERARBEIT: setze Abgabedatum ein
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \vspace{2cm}
-Kaiserslautern, den Datum der Abgabe}
+Kaiserslautern, September of 2020}\SSSAY{Is only the month enough or also the day?}
 
 }
 
@@ -563,7 +605,8 @@ Kaiserslautern, den [Datum der Abgabe]} %TODO
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % \bibliographystyle{alphadin}
-\bibliographystyle{plain}
+% \bibliographystyle{plain}
+\bibliographystyle{unsrt}
 % \bibliography{refs3}
 \bibliography{myrefs} %I added this
 % \bibliography{myrefs}

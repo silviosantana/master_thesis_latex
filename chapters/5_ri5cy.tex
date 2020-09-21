@@ -4,7 +4,7 @@
 \chapter{The RI5CY Case Study}
 \label{chapter:ri5cy}
 
-The algorithm to generate Pipeline Properties, proposed in Chap.~\ref{chapter:algorithm},  was evaluated with a case study for the RI5CY processor core. RI5CY is a 4-stage pipeline processor core based on the RISC-V architecture. Its implementation is open-source and powered by PULP Platform \cite{pulp} \TLINS{and is now part of  the open hw project ... } .
+The algorithm to generate Pipeline Properties, proposed in Chap.~\ref{chapter:algorithm},  was evaluated with a case study for the RI5CY processor core. RI5CY is a 4-stage pipeline processor core based on the RISC-V architecture. Its implementation is open-source and powered by PULP Platform \cite{pulp}, and it is now part of  the OpenHW Group\cite{openhw}.
 
 For this case study, a \textit{SystemC-PPA-compliant} \cite{paper-pdd} model for the chosen core was implemented as a sequential CPU model. The properties were then automatically generated using DeSCAM \cite{descam}. From these automatically generated properties, the Pipeline Properties were finally created using the merging Pipeline Algorithm. 
 
@@ -21,7 +21,7 @@ RISC-V is an open ISA that offers both a small base integer ISA that can be used
 
 RI5CY is an in-order \textit{32 bits} core and has a pipeline with 4 stages. Besides the support for the \textit{RV32I} Base Integer Instruction Set, it has also support for the \textit{RV32C} Standard Extension for Compressed Instructions and \textit{RV32M} Integer Multiplication and Division Instruction Set Extension, and optional support for \textit{RV32F} Single Precision Floating Point Extensions. This core also implements the following PUPL specific extensions:  Post-Incrementing load and stores, Multiply-Accumulate extensions, ALU extensions, and Hardware Loops.
 
-However, this case study is focused on the \textit{32bits} Integer Base Instructions set \SSSAY{[maybe some standard extensions if time allows it]} as detailed in Sec.~\ref{section:ri5cy-systemc-ppa} of this chapter. Before that, however, some aspects of the pipeline, memory protocol and Load-Store Unit of the RI5CY core are briefely discussed. These implementation aspects are important for the understanding of the ESL model and for the property generation as well.
+However, this case study is focused on the \textit{32bits} Integer Base Instructions set as detailed in Sec.~\ref{section:ri5cy-systemc-ppa} of this chapter. Before that, however, some aspects of the pipeline, memory protocol and Load-Store Unit of the RI5CY core are briefely discussed. These implementation aspects are important for the understanding of the ESL model and for the property generation as well.
 
 For detailed information about all the RI5CY extensions, the reader may refer to the RI5CY User Manual \cite{manual-ri5cy}.
 
@@ -99,7 +99,7 @@ For this case study, an ESL model was implemented to comply with the RI5CY core 
 
 The proposed ESL model does not comprise the RI5CY extensions and implements only a restrict set of instructions from the \textit{RV32I} Base Integer Instruction set of the RISC-V ISA. They are the arithmetic and logic instructions, \textit{load} and \textit{store} instructions, \textit{branch} and \textit{jump} instructions, and \textit{LUI} and \textit{AUIPC}.
 
-The block diagram in Fig.~\ref{fig:sim-ri5cy-diagram} shows the configuration implemented for simulating the ESL model of the core. The Register File and the Memory modules were imported from the RISC-V example in the \textit{DeSCAM} repository \cite{descam}. The Register File has 32 registers where register 0 is \textit{read-only}, and the Memory module implements a memory for both instruction and data. For this reason, a memory interface had to be implemented in order to parse memory requests from the core, as it has separate ports for instructions and data.
+The block diagram in Fig.~\ref{fig:sim-ri5cy-diagram} shows the configuration implemented for simulating the ESL model of the core. The Register File and the Memory modules were imported from the RISC-V example in the DeSCAM repository \cite{descam}. The Register File has 32 registers where register 0 is \textit{read-only}, and the Memory module implements a memory for both instruction and data. For this reason, a memory interface had to be implemented in order to parse memory requests from the core, as it has separate ports for instructions and data.
 
 \begin{figure}[htb!]
 	\centering
@@ -150,7 +150,7 @@ The interface for communicating with the Register file is also \textit{non-block
 
 The \textit{flush} signal is part of the enriched SystemC-PPA, and it is included in the model to reflect the flushing behaviour of the pipeline. Execution of some instructions may cause the pipeline to flush, e.g. when a branch instruction is evaluated and the branch is taken, the consecutive instruction, already fetched and executing in the pipeline, must be flushed. This behaviour is not modeled by the ESL because its execution is sequential, and an instruction only starts executing after the previous one is concluded. Therefore, there is no need for \textit{flushing}. The inclusion of the \textit{flush} signal at the ESL should not change its behaviour during simulation, but it will change the generated property set. The properties will have one operation for when the \textit{flush} signal is asserted and one for when it is not. The designer will then refine the flush macro into the corresponding implemented signal, e.g. the branch decision signal. 
 
-The IMEM module is a memory interface that parses the separated instruction and data memory requests into a request to the single port of the memory model. It also feeds the core with a \textit{flush} signal always set to false, so it does not interfere in the simulation. This module, like the Register File and the Memory model, is only used for simulating the RI5CY core. The only module that is interpreted by \textit{DeSCAM} to generate the property set is the core module, which is the DUV.
+The IMEM module is a memory interface that parses the separated instruction and data memory requests into a request to the single port of the memory model. It also feeds the core with a \textit{flush} signal always set to false, so it does not interfere in the simulation. This module, like the Register File and the Memory model, is only used for simulating the RI5CY core. The only module that is interpreted by DeSCAM to generate the property set is the core module, which is the DUV.
 
 An outline of the \textit{run()} function is shown in Fig.~\ref{fig:ri5cy-run-outline}. This function implements the main behaviour of the core. It runs infinitely and is divided into three sections, \textit{FETCH\_PH}, \textit{DECODE\_PH} and \textit{EXECUTE\_PH}. These three phases directly relate to the pipeline stages of the processor. However, the write back stage is not explicitly shown. This is because this \textit{WB} stage is only used by the LSU, and its important state is created as a result of the memory \textit{blocking} interface. 
 
@@ -260,11 +260,11 @@ The code snippet in Fig.~\ref{fig:ri5cy-enc-r} shows the execution phase to inst
         
         pcIf = iaddr;
     }\end{lstlisting}
-    \caption{Code for execution of instructions of \textit{ENC\_R} type from the \textit{run()} function of RI5CY core.}
+    \caption{Code for execution of instructions of ENC\_R type from the \textit{run()} function of RI5CY core.}
     \label{fig:ri5cy-enc-r}
 \end{figure}
 
-During the execute phase, the \textit{ENC\_R} instructions read the values of the operands and compute the result from the ALU according to the operation of the instruction. The signals for writing the result values back to the register file are already set at the execute phase. For this reason, there is no \textit{WB} phase for those instructions. The arithmetic and logic instructions that operate with an immediate (I-type) are named as \textit{ENC\_I\_I} and have an execute phase very similar to the \textit{ENC\_R} instructions. The \textit{ENC\_I\_I} type comprises the instructions: \textit{addi}, \textit{slti}, \textit{sltiu}, \textit{xori}, \textit{ori}, \textit{andi}, \textit{slli}, \textit{srli}, and \textit{srai}. In the same way, the \textit{lui} and \textit{auipc} (U-type) instructions, called \textit{ENC\_U}, also execute in a very similar manner as the \textit{ENC\_R} type. The complete code can be found in \cite{descam}.
+During the execute phase, the ENC\_R instructions read the values of the operands and compute the result from the ALU according to the operation of the instruction. The signals for writing the result values back to the register file are already set at the execute phase. For this reason, there is no \textit{WB} phase for those instructions. The arithmetic and logic instructions that operate with an immediate (I-type) are named as \textit{ENC\_I\_I} and have an execute phase very similar to the ENC\_R instructions. The ENC\_I\_I type comprises the instructions: \textit{addi}, \textit{slti}, \textit{sltiu}, \textit{xori}, \textit{ori}, \textit{andi}, \textit{slli}, \textit{srli}, and \textit{srai}. In the same way, the \textit{lui} and \textit{auipc} (U-type) instructions, called \textit{ENC\_U}, also execute in a very similar manner as the ENC\_R type. The complete code can be found in \cite{descam}.
 
 The listing in Fig.~\ref{fig:ri5cy-enc-i-l} shows the execution phase for the \textit{ENC\_I\_L} type that include the instructions \textit{lb}, \textit{lh}, \textit{lw}, \textit{lbu}, and \textit{lhu}. First, the access address is computed and used to send a request to the data memory. When the write operation is called on the \textit{blocking} port, a new important state is created. This new state corresponds to the \textit{WB} stage, and the write back signals to the register file are set at this point. The \textit{ENC\_S} type that comprises the \textit{sb}, \textit{sh}, and \textit{sw} instructions, have a similar execution phase, but it does not write back to the register file. 
 
@@ -292,7 +292,7 @@ The listing in Fig.~\ref{fig:ri5cy-enc-i-l} shows the execution phase for the \t
         regfileWrite.dstData = fromMemoryData;
         toRegsPort->master_write(regfileWrite); //WB
     }\end{lstlisting}
-    \caption{Code for execution of instructions of \textit{ENC\_I\_L} type from the \textit{run()} function of RI5CY core.}
+    \caption{Code for execution of instructions of ENC\_I\_L type from the \textit{run()} function of RI5CY core.}
     \label{fig:ri5cy-enc-i-l}
 \end{figure}
 
@@ -314,7 +314,7 @@ The branching instructions \textit{beq}, \textit{bne}, \textit{blt}, \textit{bge
         }
         pcIf = iaddr;
     } \end{lstlisting}
-    \caption{Code for execution of instructions of \textit{ENC\_B} type from the \textit{run()} function of RI5CY core.}
+    \caption{Code for execution of instructions of ENC\_B type from the \textit{run()} function of RI5CY core.}
     \label{fig:ri5cy-enc-b}
 \end{figure}
 
@@ -331,14 +331,14 @@ The execution phase for the types \textit{ENC\_J} and \textit{ENC\_I\_J} are equ
         
         pcIf = iaddr;
     }\end{lstlisting}
-    \caption{Code for execution of instructions of \textit{ENC\_J} type from the \textit{run()} function of RI5CY core.}
+    \caption{Code for execution of instructions of ENC\_J type from the \textit{run()} function of RI5CY core.}
     \label{fig:ri5cy-enc-j}
 \end{figure}
 
 \section{The Pipeline Properties}
 \label{section:ri5cy_pipe_ppt}
 
-After running the \textit{DeSCAM} tool to the RI5CY ESL model presented in Sec.~\ref{section:ri5cy-systemc-ppa}, a set of properties including \textit{reset} property, micro properties and \textit{wait} properties is generated. In addition to the property set, function macros corresponding to the functions of the ESL model and a set of macros corresponding to the signals in the property set are also automatically generated. The resulting PPA for the model is presented in Fig.~\ref{fig:ri5cy-ppa}.
+After running the DeSCAM tool to the RI5CY ESL model presented in Sec.~\ref{section:ri5cy-systemc-ppa}, a set of properties including \textit{reset} property, micro properties and \textit{wait} properties is generated. In addition to the property set, function macros corresponding to the functions of the ESL model and a set of macros corresponding to the signals in the property set are also automatically generated. The resulting PPA for the model is presented in Fig.~\ref{fig:ri5cy-ppa}.
 
 \begin{figure}[htb!]
 	\centering
@@ -349,7 +349,7 @@ After running the \textit{DeSCAM} tool to the RI5CY ESL model presented in Sec.~
 
 The important states depicted on the PPA correspond to the stages of the RI5CY pipeline. Even though the processor has a 4-stage pipeline, the register file was implemented as an external module, so there is no important state corresponding to this stage. Consequently, the behaviour of the signals that write to the register file is covered by the model and, therefore, by the generated property set. However, the register file functionality is not covered, and, as an independent module, it must have its own design and verification flow.
 
-To illustrate the operations in the PPA of Fig.~\ref{fig:ri5cy-ppa}, consider an \textit{ADD} operation. It starts at the \textit{IF} state, and the first operation, represented by the edge from \textit{IF} to \textit{ID}, refers to when the instruction moves from the fetch stage to the decoder. The instruction fetching address is updated and a new request to the instruction memory is sent. The next operation starts in state \textit{ID}. In this operation, the add computation is done, and write back signals are set with the result and destination register address. Since all these steps happen in the same \textit{clock} cycle, they are part of the same operation. In addition, because the functionality of the register file is not part of the model, checking the correct write back signals is enough. Thus, there is no check on whether the right values are written to the registers or not. This behaviour would be covered by a separated property set for the register file module. Therefore, the ending state for this operation is already the \textit{IF} state as the execution of the instruction is done. The properties in the listing of Fig.~\ref{fig:ri5cy-if-id-micro-ppt-a} (a) and (b) show the two micro properties generated by \textit{DeSCAM} for the those two operations from \textit{IF} to \textit{ID} and from \textit{ID} back to \textit{IF}.
+To illustrate the operations in the PPA of Fig.~\ref{fig:ri5cy-ppa}, consider an \textit{ADD} operation. It starts at the \textit{IF} state, and the first operation, represented by the edge from \textit{IF} to \textit{ID}, refers to when the instruction moves from the fetch stage to the decoder. The instruction fetching address is updated and a new request to the instruction memory is sent. The next operation starts in state \textit{ID}. In this operation, the add computation is done, and write back signals are set with the result and destination register address. Since all these steps happen in the same \textit{clock} cycle, they are part of the same operation. In addition, because the functionality of the register file is not part of the model, checking the correct write back signals is enough. Thus, there is no check on whether the right values are written to the registers or not. This behaviour would be covered by a separated property set for the register file module. Therefore, the ending state for this operation is already the \textit{IF} state as the execution of the instruction is done. The properties in the listing of Fig.~\ref{fig:ri5cy-if-id-micro-ppt-a} (a) and (b) show the two micro properties generated by DeSCAM for the those two operations from \textit{IF} to \textit{ID} and from \textit{ID} back to \textit{IF}.
 
 \begin{figure}[htb]
     \begin{lstlisting}
@@ -412,9 +412,9 @@ To illustrate the operations in the PPA of Fig.~\ref{fig:ri5cy-ppa}, consider an
     \label{fig:ri5cy-if-id-micro-ppt-b}
 \end{figure}
 
-For simplicity, all the instructions comprised by the \textit{ENC\_R}, \textit{ENC\_I\_I}, \textit{ENC\_U}, \textit{ENC\_J}, and \textit{ENC\_I\_J} types have their operations represented by the \textit{IF-ID} and \textit{ID-IF} edges of the PPA in Fig.~\ref{fig:ri5cy-ppa}, although the properties generated for them are not the same. The \textit{load} and \textit{store} instructions for \textit{ENC\_I\_L} and \textit{ENC\_S} are represented by the four edges between states \textit{IF}, \textit{ID} and \textit{LSU}, including the wait edge. The \textit{branch} instructions of \textit{ENC\_B} are represented by two paths. One includes the \textit{branch} edge and comprises the three operations between the states \textit{IF}, \textit{ID} and \textit{BR}. This path corresponds to the execution when a branch is taken. The second path includes the \textit{!branch} edge that corresponds to the operation for when a branch is not taken. In this case, the branch instruction has only two operations between the states \textit{IF} and \textit{ID}. Finally, the \textit{flush} edge represents the operation when the pipeline is flushed. The \textit{!flush} edge is the regular operation between \textit{IF} and \textit{ID} for all instructions.
+For simplicity, all the instructions comprised by the ENC\_R, ENC\_I\_I, ENC\_U, ENC\_J, and ENC\_I\_J types have their operations represented by the \textit{IF-ID} and \textit{ID-IF} edges of the PPA in Fig.~\ref{fig:ri5cy-ppa}, although the properties generated for them are not the same. The \textit{load} and \textit{store} instructions for ENC\_I\_L and ENC\_S are represented by the four edges between states \textit{IF}, \textit{ID} and \textit{LSU}, including the wait edge. The \textit{branch} instructions of ENC\_B are represented by two paths. One includes the \textit{branch} edge and comprises the three operations between the states \textit{IF}, \textit{ID} and \textit{BR}. This path corresponds to the execution when a branch is taken. The second path includes the \textit{!branch} edge that corresponds to the operation for when a branch is not taken. In this case, the branch instruction has only two operations between the states \textit{IF} and \textit{ID}. Finally, the \textit{flush} edge represents the operation when the pipeline is flushed. The \textit{!flush} edge is the regular operation between \textit{IF} and \textit{ID} for all instructions.
 
-Running the Pipeline Algorithm for the property set generated by \textit{DeSCAM} will merge the micro and \textit{wait} operations resulting in pipeline properties. The micro properties in Fig.~\ref{fig:ri5cy-if-id-micro-ppt-a} (a) and (b) will be merged into a single property describing the behaviour through all pipeline stages. This is shown in the listing of Fig.~\ref{fig:ri5cy-enc-r-ppt}.
+Running the Pipeline Algorithm for the property set generated by DeSCAM will merge the micro and wait operations resulting in pipeline properties. The micro properties in Fig.~\ref{fig:ri5cy-if-id-micro-ppt-a} (a) and (b) will be merged into a single property describing the behaviour through all pipeline stages. This is shown in the listing of Fig.~\ref{fig:ri5cy-enc-r-ppt}.
 
 \begin{figure}[htb!]
     \begin{lstlisting}
@@ -457,19 +457,19 @@ Running the Pipeline Algorithm for the property set generated by \textit{DeSCAM}
         during[t_id+1, t_ex]: data_out_notify == false;
         at t_ex: toRegsPort_notify == true;
     end property;\end{lstlisting}
-    \caption{Pipeline property for \textit{ENC\_R} instructions of RI5CY. This property is derived by merging the mirco properties in Fig.~\ref{fig:ri5cy-if-id-micro-ppt-a} (a) and (b).}
+    \caption{Pipeline property for ENC\_R instructions of RI5CY. This property is derived by merging the mirco properties in Fig.~\ref{fig:ri5cy-if-id-micro-ppt-a} (a) and (b).}
     \label{fig:ri5cy-enc-r-ppt}
 \end{figure}
 
-The property shown in Fig.~\ref{fig:ri5cy-enc-r-ppt} had some of its “\textit{freeze}” variables and function arguments omitted for simplicity reasons. The complete Pipeline Properties set can be found in \cite{descam}. The dependencies from lines 3 to 7 are the constraints valid for this property. The \textit{no\_reset} constraint is automatically added by \textit{DeSCAM} and corresponds to a macro which defines that there is no incoming reset signal during the instruction execution. The \textit{instr\_mem} constraint refines the instruction memory protocol. The three other constraints disable RI5CY extension modules, such as the non-aligned memory access and \textit{hardware loop} extensions. In this case study, only the RISC-V 32 bits base instruction is modelled. The \textit{in\_out\_constraints} constrains some unused \textit{inputs} and \textit{outputs}, such as interruption signals, to be de-asserted. 
+The property shown in Fig.~\ref{fig:ri5cy-enc-r-ppt} had some of its “\textit{freeze}” variables and function arguments omitted for simplicity reasons. The complete Pipeline Properties set can be found in \cite{descam}. The dependencies from lines 3 to 7 are the constraints valid for this property. The \textit{no\_reset} constraint is automatically added by DeSCAM and corresponds to a macro which defines that there is no incoming reset signal during the instruction execution. The \textit{instr\_mem} constraint refines the instruction memory protocol. The three other constraints disable RI5CY extension modules, such as the non-aligned memory access and \textit{hardware loop} extensions. In this case study, only the RISC-V 32 bits base instruction is modelled. The \textit{in\_out\_constraints} constrains some unused \textit{inputs} and \textit{outputs}, such as interruption signals, to be de-asserted. 
 
 The two timepoints were added and updated according to the two micro properties from which the pipeline property was merged. The $t\_id$ timepoint corresponds to the commitments of the micro property in Fig.~\ref{fig:ri5cy-if-id-micro-ppt-a}a, and $t\_ex$ for the commitments in Fig.~\ref{fig:ri5cy-if-id-micro-ppt-b}b. In addition, the “\textit{freeze}” variables from lines 12 to 17 had also their names updated according to the corresponding micro property timepoint.
 
-The assumptions from line 19 to 22 correspond to the assumptions in Fig.~\ref{fig:ri5cy-if-id-micro-ppt-a}a. The \textit{IF} macro state is refined to represent both \textit{ready to fetch} and \textit{empty pipeline} states. The other three assumptions determine that there should be no flushing and that the fetched instruction is not a \textit{jump}, what would change the processor behaviour already at $t\_id$. The assumptions in lines 24 and 25 are imported from Fig.~\ref{fig:ri5cy-if-id-micro-ppt-b}b. They specify that the instruction to be decoded is known and of the type \textit{ENC\_R}. This determines the processor behaviour at $t\_ex$.
+The assumptions from line 19 to 22 correspond to the assumptions in Fig.~\ref{fig:ri5cy-if-id-micro-ppt-a}a. The \textit{IF} macro state is refined to represent both \textit{ready to fetch} and \textit{empty pipeline} states. The other three assumptions determine that there should be no flushing and that the fetched instruction is not a \textit{jump}, what would change the processor behaviour already at $t\_id$. The assumptions in lines 24 and 25 are imported from Fig.~\ref{fig:ri5cy-if-id-micro-ppt-b}b. They specify that the instruction to be decoded is known and of the type ENC\_R. This determines the processor behaviour at $t\_ex$.
 
-The commitments from lines 27 to 32 correspond to the operation \textit{IF-ID} from Fig.~\ref{fig:ri5cy-if-id-micro-ppt-a}a. As for the commitments from lines 34 to 38, they correspond to the operation \textit{ID-IF} from Fig.~\ref{fig:ri5cy-if-id-micro-ppt-b}b. By comparing the commitments of the micro properties and the merged property, it is possible to spot the inserted, deleted, and updated commitments by the merging steps of the pipeline algorithm. The helping macro functions are derived form the functions implemented in the ESL model, and they are fully automatically generated by \textit{DeSCAM}, so no refinement is needed. The remaining signals and state macros are generated in a separate file and must be refined by the designer to match the signals and registers of the RTL implantation. 
+The commitments from lines 27 to 32 correspond to the operation \textit{IF-ID} from Fig.~\ref{fig:ri5cy-if-id-micro-ppt-a}a. As for the commitments from lines 34 to 38, they correspond to the operation \textit{ID-IF} from Fig.~\ref{fig:ri5cy-if-id-micro-ppt-b}b. By comparing the commitments of the micro properties and the merged property, it is possible to spot the inserted, deleted, and updated commitments by the merging steps of the pipeline algorithm. The helping macro functions are derived form the functions implemented in the ESL model, and they are fully automatically generated by DeSCAM, so no refinement is needed. The remaining signals and state macros are generated in a separate file and must be refined by the designer to match the signals and registers of the RTL implantation. 
 
-In addition to the properties for all the instruction types, a micro property for the \textit{flush} edge describing the behaviour of the flushing operation is generated by \textit{DeSCAM}, and it is refined by the Pipeline Algorithm. A property is also generated and refined for the operation when an unknown instruction is fetched. The assumptions for such property is shown in Fig.~\ref{fig:ri5cy-unknown-ppt}. An extra assumption, that is not part of the merging algorithm, is manually inserted, the \textit{illegal\_instr()} assumption. This assumption is only necessary in this special case study because not all instruction known to the RTL implementation are known to the ESL model. As a result, without this assumption, the property check tool would find a \textit{spurious} counter example with an instruction that is known to the RTL design, but not to the ESL model. In this case, the commitments would not be fulfilled, and the property would not hold. 
+In addition to the properties for all the instruction types, a micro property for the \textit{flush} edge describing the behaviour of the flushing operation is generated by DeSCAM, and it is refined by the Pipeline Algorithm. A property is also generated and refined for the operation when an unknown instruction is fetched. The assumptions for such property is shown in Fig.~\ref{fig:ri5cy-unknown-ppt}. An extra assumption, that is not part of the merging algorithm, is manually inserted, the \textit{illegal\_instr()} assumption. This assumption is only necessary in this special case study because not all instruction known to the RTL implementation are known to the ESL model. As a result, without this assumption, the property check tool would find a \textit{spurious} counter example with an instruction that is known to the RTL design, but not to the ESL model. In this case, the commitments would not be fulfilled, and the property would not hold. 
 
 \begin{figure}[htb!]
     \begin{lstlisting}
@@ -522,7 +522,7 @@ Finally, a property with the assumptions such the ones shown in Fig.~\ref{fig:ri
 \section{The \SSQED{} Properties}
 \label{section:ri5cy-s2qed-ppt}
 
-To make the set of pipeline properties complete, a set of \SSQED{} properties must be created. An overview about \SSQED{} can be seen in Sec.~\ref{section:s2qed}. The current section will present how a set of \SSQED{} properties was created to the RI5CY core.  Fig.~\ref{fig:ri5cy-enc-r-s2qed-ppt} shows a simplified \SSQED{} property for the instructions of type \textit{ENC\_R}. This example is going to be used to analyse each part of a \SSQED{} property.
+To make the set of pipeline properties complete, a set of \SSQED{} properties must be created. An overview about \SSQED{} can be seen in Sec.~\ref{section:s2qed}. The current section will present how a set of \SSQED{} properties was created to the RI5CY core.  Fig.~\ref{fig:ri5cy-enc-r-s2qed-ppt} shows a simplified \SSQED{} property for the instructions of type ENC\_R. This example is going to be used to analyse each part of a \SSQED{} property.
 
 \begin{figure}[htb!]
     \begin{lstlisting}
@@ -565,7 +565,7 @@ To make the set of pipeline properties complete, a set of \SSQED{} properties mu
         // general registers
         at t_done_i2: cpu2/id_stage_i/registers_i/riscv_register_file_i/mem == regfile_i1_at_t_done_i1;
     end property;\end{lstlisting}
-    \caption{\SSQED{} property for instructions of type \textit{ENC\_R}.}
+    \caption{\SSQED{} property for instructions of type ENC\_R.}
     \label{fig:ri5cy-enc-r-s2qed-ppt}
 \end{figure}
 
@@ -573,7 +573,7 @@ The \textit{dependencies} field was omitted because the constraints should follo
 
 The assumptions start with the restrictions for \textit{cpu1}, stating that it is \textit{ready to fetch} at $t\_if$, it has an \textit{empty pipeline}, and that the instructions after the IUV are only \textit{nop}’s. This last assumption is not a requirement for the correctness of the model, instead it aims to reduce the complexity for the SAT-solving tool. Since the \SSQED{} properties have two independent instances executing, the complexity for the property checking tool and therefore the time needed for proving each property grows rapidly.
 
-The next assumption refers to the IUV that must be of type \textit{ENC\_R}. Both CPU instances fetch the same instruction at $t\_if$. In addition, the \textit{output} address must also be the same. This assumption is important to be able to prove the consistency of the PC register. Next, the property assumes that the CPU instances are consistent at $t\_wb$. Finally, the last two assumptions refer to the \textit{cpu2} and requires that there is no flushing between $t\_if$ and $t\_id$, so that the IUV is not flushed, and that \textit{cpu2} is \textit{ready to fetch} at $t\_if$ when the IUV is fetched.
+The next assumption refers to the IUV that must be of type ENC\_R. Both CPU instances fetch the same instruction at $t\_if$. In addition, the \textit{output} address must also be the same. This assumption is important to be able to prove the consistency of the PC register. Next, the property assumes that the CPU instances are consistent at $t\_wb$. Finally, the last two assumptions refer to the \textit{cpu2} and requires that there is no flushing between $t\_if$ and $t\_id$, so that the IUV is not flushed, and that \textit{cpu2} is \textit{ready to fetch} at $t\_if$ when the IUV is fetched.
 
 The two commitments are proving that the PC register of both CPU instances are consistent at $t\_id$, and that the register files are consistent at $t\_done$.
 
@@ -592,9 +592,9 @@ In order to deal with this simultaneous write back, the \textit{qed\_consistency
 
 The extended qed\_consist\_reg of Eq.~\ref{eq:new-consistency-register} specifies that at $t\_wb$ either each register in \textit{cpu2} holds the same value as its corresponding register in \textit{cpu1}, or there is a write back for that register. If there is a write back to that register, the \textit{input} value to be written to the register is the same value that the corresponding register in \textit{cpu1} holds at $t\_wb$. This QED consistency is shown in lines 24 to 29 of the property in Fig.~\ref{fig:ri5cy-enc-r-s2qed-ppt}.
 
-This QED consistency assumption of \textit{ENC\_R} instructions is also valid for the \textit{ENC\_U}, \textit{ENC\_J} and \textit{ENC\_I\_J}, as they use the same write back port from the ALU to write to the register file at $t\_wb$. The remaining instructions considered for this case study have the same previous QED consistency because they do not check the whole register file in the commitments at $t\_done$.
+This QED consistency assumption of ENC\_R instructions is also valid for the ENC\_U, ENC\_J and ENC\_I\_J, as they use the same write back port from the ALU to write to the register file at $t\_wb$. The remaining instructions considered for this case study have the same previous QED consistency because they do not check the whole register file in the commitments at $t\_done$.
 
-The \textit{load} instructions will check the consistency of the destination register after write back because the case of simultaneous access is covered by the properties for the instructions that uses the ALU write back port. The \textit{ENC\_S} instructions do not need to check the register files as they do not write to the registers. As shown in Fig.~\ref{fig:ri5cy-enc-s-s2qed-ppt}, it only checks PC and the consistency of the data memory output signals at $t\_ex$. The branch instructions will check the consistency of the PC register, \textit{branch decision} signal, and instruction fetching address for the case when the branch is taken, Fig.~\ref{fig:ri5cy-enc-b-s2qed-ppt-taken}, or simply the PC and \textit{branch signal} consistency for the case when the branch is not taken, Fig.~\ref{fig:ri5cy-enc-b-s2qed-ppt-not-taken}. The complete set of \SSQED{} properties is found in \cite{descam}.
+The \textit{load} instructions will check the consistency of the destination register after write back because the case of simultaneous access is covered by the properties for the instructions that uses the ALU write back port. The ENC\_S instructions do not need to check the register files as they do not write to the registers. As shown in Fig.~\ref{fig:ri5cy-enc-s-s2qed-ppt}, it only checks PC and the consistency of the data memory output signals at $t\_ex$. The branch instructions will check the consistency of the PC register, \textit{branch decision} signal, and instruction fetching address for the case when the branch is taken, Fig.~\ref{fig:ri5cy-enc-b-s2qed-ppt-taken}, or simply the PC and \textit{branch signal} consistency for the case when the branch is not taken, Fig.~\ref{fig:ri5cy-enc-b-s2qed-ppt-not-taken}. The complete set of \SSQED{} properties is found in \cite{descam}.
 
 \begin{figure}[htb!]
     \begin{lstlisting}
@@ -610,7 +610,7 @@ The \textit{load} instructions will check the consistency of the destination reg
         at t_ex_i2: cpu2/data_addr_o == data_addr_at_ex_i1;
         at t_ex_i2: cpu2/data_wdata_o == data_wdata_at_ex_i1;
     end property;\end{lstlisting}
-    \caption{Commitments of \SSQED{} property for \textit{ENC\_S} instructions.}
+    \caption{Commitments of \SSQED{} property for ENC\_S instructions.}
     \label{fig:ri5cy-enc-s-s2qed-ppt}
 \end{figure}
 
@@ -631,7 +631,7 @@ The \textit{load} instructions will check the consistency of the destination reg
         // Instr Memory Output
         at t_ex_i2: cpu2/instr_addr_o == instr_addr_at_t_ex_i1;
     end property;\end{lstlisting}
-         \caption{Commitments of \SSQED{} property for \textit{ENC\_B} instructions when the branch is taken.}
+         \caption{Commitments of \SSQED{} property for ENC\_B instructions when the branch is taken.}
          \label{fig:ri5cy-enc-b-s2qed-ppt-taken}
      \end{subfigure}
      \hfill
@@ -646,9 +646,9 @@ The \textit{load} instructions will check the consistency of the destination reg
         // Branch Result
         at t_ex_i2: cpu2_flush_sig == cpu1_flush_sig_at_t_ex_i1;
     end property;\end{lstlisting}
-         \caption{Commitments of \SSQED{} property for \textit{ENC\_B} instructions when the branch is not taken.}
+         \caption{Commitments of \SSQED{} property for ENC\_B instructions when the branch is not taken.}
          \label{fig:ri5cy-enc-b-s2qed-ppt-not-taken}
      \end{subfigure}
-        \caption{Commitments of \SSQED{} property for \textit{ENC\_B} instructions for both cases when the branch is (a) taken and (b) not taken.}
+        \caption{Commitments of \SSQED{} property for ENC\_B instructions for both cases when the branch is (a) taken and (b) not taken.}
         \label{fig:ri5cy-enc-b-s2qed-ppt}
 \end{figure}
