@@ -14,7 +14,7 @@ This chapter presents a brief discussion on how IPC can be used to verify a pipe
 \begin{figure}[htb!]
 	\centering
 	\includegraphics[width=0.85\textwidth]{images/pipeline-example.PNG}
-	\caption{Illustration of the execution of instructions in a nonpipelined processor (top) versus pipelined execution (bottom). The \textit{ld} instruction loads data from the memory into a register in the processor register file. In this example, memory \textit{stalls} are not considered. (Reprinted from \cite{book-comp-org})}
+	\caption{Illustration of the execution of instructions in a non-pipelined processor (top) versus pipelined execution (bottom). The \textit{ld} instruction loads data from the memory into a register in the processor register file. In this example, memory \textit{stalls} are not considered. (Reprinted from \cite{book-comp-org})}
 	\label{fig:pipe-example}
 \end{figure}
 
@@ -31,8 +31,6 @@ Since different types of instructions have very similar execution \textit{steps}
 Certainly, each processor can have its own pipeline implementation, but they usually constitute some variation of the five presented stages.
 
 One main advantage of pipelining is increasing the instruction \textit{throughput}, the amount of processed data per time unit. This advantage is illustrated in Fig.~\ref{fig:pipe-example}. In this example, a single \textit{load} instruction takes 800\,ps in a nonpipelined processor. Considering a pipelined processor with the five aforementioned stages, and with each stage taking 200\,ps, the three \textit{load} instructions execute in 1400\,ps, in contrast to the 2400\,ps needed for the nonpipelined processor. In this example, of course, possible \textit{stalls} caused by waiting for data memory are not considered for simplicity reasons. 
-\TLSAY{If the frequency remains the same non-pipelined would be better because we get 1 instruction / cycle where as in pipelined we get (1/number of stages) instructions / cycle. 
-Right? } \SSSAY{Not really. Once the pipeline is filled, you still get one instruction done per cycle. In any case, since it is a brief overview about pipeline. I thought of only using this really simple example to ilustrate and not going into so much details.}
 
 \section{Property Checking for Pipelined Processors}
 \label{section:ipc-pipe-processor}
