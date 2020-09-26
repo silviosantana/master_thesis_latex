@@ -75,16 +75,16 @@ Finally, the resulting property set was checked for the RTL design. The property
           \hline
          Instruction Type & Time (h:m) & Mem.(GB) & Time (h:m) & Mem.(GB)  \\
           \hline
-        ENC\_R & 00:23 & 9.7 & 01:37 &  21.4  \\
-        ENC\_I\_I & 00:19 & 9.4 & 11:27 &  26.5\\
-        ENC\_B taken  & 00:02 & 8.8 & 01:12 & 19\\
-        ENC\_B not taken & 00:10 & 9.4 & 01:07 &  24  \\
+        ENC\_R & 00:23 & 9.7 & 07:55 &  21.8  \\
+        ENC\_I\_I & 00:19 & 9.4 & 07:21 &  22.4\\
+        ENC\_B taken  & 00:02 & 8.8 & 01:19 & 19.6\\
+        ENC\_B not taken & 00:10 & 9.4 & 04:11 &  24  \\
         ENC\_J & 00:03 & 8.7 & - &  -  \\
         ENC\_I\_J & 00:07 & 9.7 & - &  -  \\
-        ENC\_JUMP & - & - & 10:27 &  23  \\
-        ENC\_I\_L & 01:00 & 23.3 & 17:07 & 33.6  \\
-        ENC\_S & 00:08 & 12.2 & 04:15 &  24.9  \\
-        ENC\_U & 00:14 & 9.4 & 09:02 & 20.7  \\
+        ENC\_JUMP & - & - & 05:01 &  19.7  \\
+        ENC\_I\_L & 01:00 & 23.3 & 18:13 & 33.3  \\
+        ENC\_S & 00:08 & 12.2 & 01:21 &  20.2  \\
+        ENC\_U & 00:14 & 9.4 & 04:12 & 20.4  \\
         RESET & < 00:01 & 1.1 & - &  -  \\
         FLUSH & 00:10 & 7.8 & - &  -  \\
         UNKNOWN & < 00:01 & 5.5 & - &  -  \\
@@ -94,7 +94,7 @@ Finally, the resulting property set was checked for the RTL design. The property
 
 The longer checking time for the pipeline properties occurred for the ENC\_I\_L instruction type. This is justified by the inserted bounded wait of five cycles for the data memory. The ENC\_I\_L is followed by ENC\_R and ENC\_I\_I types. This is because these types comprise the greater number of associated instructions, for instance all the arithmetic, logic, and logic shift instructions.
 
-The results for the \SSQED{} property set were obtained with some constraints regarding the number of registers considered for the checker. All the register fields of the IUV were restricted to be lower than five, i.e. the instruction will access the four first register of the register file. In addition, the bounded wait for \textit{load} and \textit{store} instructions were limited to three instead of five. These restrictions were applied to reduce the complexity for the property checker. This complexity issue is evidenced when comparing both checking time and memory used between the \SSQED{} properties set with the pipeline properties set. Both measurements are much higher for the \SSQED{} set than for the pipeline set for all instruction types.
+The results for the \SSQED{} property set were obtained with some constraints regarding the number of registers considered by the checker for \textit{load} instructions. All the register fields of the IUV were restricted to be lower than five, i.e. the instruction will only access the four first register of the register file. In addition, the bounded wait for \textit{load} and \textit{store} instructions were limited to three instead of five. These restrictions were applied to reduce the complexity for the property checker. This complexity issue is evidenced when comparing both checking time and memory used between the \SSQED{} properties set with the pipeline properties set. Both measurements are much higher for the \SSQED{} set than for the pipeline set for all instruction types.
 
 Even though the checking time required for making a property hold can be of several minutes, or even hours, the property checking tool needs much less to find a \textit{bug}. A \textit{bug} was inserted on the forwarding mechanism of the processor core. This type of error is only detected by the \SSQED{} property set, since \textit{forwarding} only happens for specific program contexts where instructions at different pipeline stages interact. The property checking tool needed 4\,min\,and\,58\,s to find a counter-example for an ENC\_I\_L \SSQED{} property, and only 2\,min\,and\,6\,s for an ENC\_R \SSQED{} property. Similarly, a \textit{bug} was inserted on the operand signals from the register file to the ALU. This type of \textit{bug} is considered single-instruction error because it can be spotted by properties for IUV executing in an empty pipeline. Thus, the property checking tool found a counter-example for an ENC\_I\_L pipeline property in 1\,min\,and\,36\,s and for an ENC\_R pipeline property in 15\,s.
 
