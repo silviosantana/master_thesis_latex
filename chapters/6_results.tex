@@ -40,11 +40,11 @@ The simulation results presented in Table~\ref{tab:esl-rtl-comp} refer to the si
 		Time to generate properties  &  23.6 s  \\
 		Number of properties  &  21 \\
 		LoC (properties only)  &  661 \\
-		LoC (properties \& macros)  &  925\\
+		LoC (properties \& macros)  &  722\\
 	\end{tabular} 
 \end{table*}
 
-The same environment was used to run the \textit{DeSCAM} tool for the implemented ESL model to generate the set of micro properties. The results are presented in Table~\ref{tab:micro-ppt-results}. DeSCAM takes approximately 24\,s to parse the ESL model and generate the micro properties set with a total of 21 properties. Considering only the lines of code for the generated properties, the count is 661\,LoC. When the generated macros to be refined by the designer are considered, the new count is 925\,LoC. DeSCAM also generates a file with macros of functions that correspond to the functions implemented at the ESL model. For this experiment, the generated file has 201 LoC, but the designer does not need to do any refinement for these macro functions.  
+The same environment was used to run the \textit{DeSCAM} tool for the implemented ESL model to generate the set of micro properties. The results are presented in Table~\ref{tab:micro-ppt-results}. DeSCAM takes approximately 24\,s to parse the ESL model and generate the micro properties set with a total of 21 properties. Considering only the lines of code for the generated properties, the count is 661\,LoC. When the generated macros to be refined by the designer are considered, the new count is 722\,LoC. DeSCAM also generates a file with macros of functions that correspond to the functions implemented at the ESL model. For this experiment, the generated file has 201 LoC, but the designer does not need to do any refinement for these macro functions.  
 
 
 The next step is the creation of the set of pipeline and \SSQED{} properties. Table~\ref{tab:pipe-s2qed-ppt-resutls} shows the estimated effort for applying the pipeline algorithm to create the merged properties, and the estimated effort to create the \SSQED{} property set. Even though the \SSQED{} properties are not created from any automatically generated properties, they are not built from scratch. The number of properties needed is guided by the merged pipeline properties, i.e. for each merged property corresponding to a type of instruction, a \SSQED{} should be written. In addition, the refined state macros, e.g. \textit{ready to fetch} and \textit{empty pipeline}, and the generated function macros can be reused. The effort shown for the pipeline property set takes into consideration the application of the pipeline algorithm to merge the micro properties, but not the macros refinement.The estimated effort to refine the macros is 1\,\textit{person\,week}. This effort is considerably large because the RI5CY user manual \cite{manual-ri5cy} does not have detailed specification and much of the effort went towards extracting information from the RTL implementation.
@@ -110,6 +110,7 @@ For means of comparison, the experiments included the creation of pipeline prope
 		Effort  &  1 person month &  8 person days\\
 		Number of Properties  &  8 & 13 \\
 		Lines of Code  & 879  &  834\\
+		Total property checking time  & 9:21 h  & 2:36 h \\
 	\end{tabular}
 \end{table*}
 

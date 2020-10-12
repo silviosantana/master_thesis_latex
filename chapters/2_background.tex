@@ -40,7 +40,7 @@ After specifying the operational view of the design, each operation must be desc
         at t+3: state == S2;
         at t+3: ack_o == 1;
     end property;\end{lstlisting}
-    \caption{Example of a property that checks the behaviour for a request signal acknowledgement. At an arbitrary time $t$ the circuit is at state $S_1$ and a request signal arrives at the \textit{input} port $request\_i$. At time $t+3$ the circuit should be at state $S_2$ and an acknowledgement signal is set at the \textit{output} port $ack\_o$.}
+    \caption{Example of a property that checks the behaviour for a request signal acknowledgement. At an arbitrary time $t$ the circuit is at control state $S_1$ and a request signal arrives at the \textit{input} port $request\_i$. At time $t+3$ the circuit should be at control state $S_2$ and an acknowledgement signal is set at the \textit{output} port $ack\_o$.}
     \label{fig:property}
 \end{figure}
 
@@ -56,7 +56,7 @@ A \textit{Finite State Machine}~(FSM) is a deterministic and discrete model of c
     \item[] $X$: a set of allowed input symbols, input alphabet;
     \item[] $Y$: a set of allowed output symbols, output alphabet;
     \item[] $\delta$: $S \times X \to S$ is a transition function;
-    \item[] $\lambda$: $S \times Y \to Y$ is an output function.
+    \item[] $\lambda$: $S \times X \to Y$ is an output function.
 \end{itemize}
 
 There are two types of FSM, Mealy and Moore. The aforementioned definition refers to the Mealy type machine. The Moore type only differs on the output function which depends only on the current state $\lambda$: $S \to Y$.
@@ -109,7 +109,7 @@ The authors in \cite{paper-gapfree} define a set of operation properties as comp
     \item \textbf{The Case Split Test:} This test checks whether the chain of operations is comprised by the property set. Therefore, for each state reached by a property, there must be a property starting at this state for every input combination.
     \item \textbf{The Successor Test:} The successor test checks if the chain of properties is uniquely determined. In this sense, for every property the test check if each succeeding property is uniquely determined for its input trace.
     \item \textbf{The Determination Test:} This test will check the determination requirements. It verifies if the outputs and determined state registers, also referred as visible registers, are uniquely determined for all operations.
-    \item \textbf{The Reset Property:} The reset test checks the initialization of the design. After the reset sequence, the design should end at a unique important state, and have determined all the signals according to the determination requirements.
+    \item \textbf{The Reset Test:} The reset test checks the initialization of the design. After the reset sequence, the design should end at a unique important state, and have determined all the signals according to the determination requirements.
 \end{enumerate}
 
 
